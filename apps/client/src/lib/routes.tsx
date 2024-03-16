@@ -11,6 +11,10 @@ const routes: RouteObject[] = [
         path: "/",
         element: <Home />,
       },
+      {
+        path: "/discover",
+        element: <Home />,
+      },
     ],
   },
 ];
