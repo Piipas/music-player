@@ -4,7 +4,7 @@ import { Slider } from "@/components/atoms/slider";
 
 function Player() {
   return (
-    <div className="absolute bottom-0 h-20 border-t border-gray-600 w-full py-2 px-4 flex justify-between">
+    <div className="h-20 border-t border-gray-600 w-full py-2 px-4 flex justify-between relative z-50 bg-background">
       <div className="absolute top-0 left-0 -translate-y-1/2 w-full">
         <Slider defaultValue={[50]} max={100} step={1} className="w-full" />
       </div>

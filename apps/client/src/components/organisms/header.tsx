@@ -1,5 +1,21 @@
 import { Input } from "@/components/atoms/input";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/atoms/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/atoms/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/atoms/dialog";
 
 function Header() {
   return (
