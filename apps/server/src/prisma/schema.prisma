@@ -1,0 +1,132 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
+
+  Artist         Artist[]
+  Playlist       Playlist[]
+  History        History[]
+  SongsLikes     SongsLikes[]
+  ArtistsFollows ArtistsFollows[]
+  PlaylistsLikes PlaylistsLikes[]
+}
+
+model Song {
+  id        Int      @id @default(autoincrement())
+  name      Int
+  duration  Int
+  path      String   @unique
+  artist_id Int
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
+
+  History         History[]
+  SongsCategories SongsCategories[]
+  Likes           SongsLikes[]
+  Playlists       PlaylistsSongs[]
+  Artist          Artist            @relation(fields: [artist_id], references: [id])
+}
+
+model Artist {
+  id      Int    @id @default(autoincrement())
+  name    String
+  avatar  String
+  user_id Int
+
+  User    User             @relation(fields: [user_id], references: [id])
+  Songs   Song[]
+  Follows ArtistsFollows[]
+}
+
+model Playlist {
+  id      Int    @id @default(autoincrement())
+  name    String
+  user_id Int
+
+  User  User             @relation(fields: [user_id], references: [id])
+  Likes PlaylistsLikes[]
+  Songs PlaylistsSongs[]
+}
+
+model Category {
+  id              Int               @id @default(autoincrement())
+  name            String
+  SongsCategories SongsCategories[]
+}
+
+model History {
+  id      Int @id @default(autoincrement())
+  song_id Int
+  user_id Int
+
+  Song Song @relation(fields: [song_id], references: [id])
+  User User @relation(fields: [user_id], references: [id])
+}
+
+model SongsCategories {
+  category_id Int
+  song_id     Int
+
+  Category Category @relation(fields: [category_id], references: [id])
+  Song     Song     @relation(fields: [song_id], references: [id])
+
+  @@unique([category_id, song_id], name: "category_song_id")
+}
+
+model SongsLikes {
+  song_id Int
+  user_id Int
+
+  Song Song @relation(fields: [song_id], references: [id])
+  User User @relation(fields: [user_id], references: [id])
+
+  @@unique([song_id, user_id], name: "song_user_id")
+}
+
+model ArtistsFollows {
+  artist_id Int
+  user_id   Int
+
+  Artist Artist @relation(fields: [artist_id], references: [id])
+  User   User   @relation(fields: [user_id], references: [id])
+
+  @@unique([artist_id, user_id], name: "song_user_id")
+}
+
+model PlaylistsLikes {
+  playlist_id Int
+  user_id     Int
+
+  Playlist Playlist @relation(fields: [playlist_id], references: [id])
+  User     User     @relation(fields: [user_id], references: [id])
+
+  @@unique([playlist_id, user_id], name: "song_user_id")
+}
+
+model PlaylistsSongs {
+  playlist_id Int
+  song_id     Int
+
+  Playlist Playlist @relation(fields: [playlist_id], references: [id])
+  Song     Song     @relation(fields: [song_id], references: [id])
+
+  @@unique([playlist_id, song_id], name: "song_user_id")
+}

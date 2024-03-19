@@ -1,0 +1,7 @@
+folders=("song" "artist" "playlist")
+
+for folder in ${folders[@]}; do
+	mkdir $folder; cd $folder
+	touch $folder-update.ts $folder-read.ts $folder-create.ts $folder-delete.ts
+	cd ../
+done
