@@ -16,11 +16,11 @@ app.use('/', AuthRouter);
 app.use('/artists', ArtistRouter);
 
 app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
+  console.log(error);
   if (error instanceof Prisma.PrismaClientKnownRequestError) {
-    console.log(error);
     switch (error.code) {
       case 'P2025':
-        return res.status(404).json({ message: 'Item you are looking for does not exist!' });
+        return res.status(404).json({ message: 'The item you are looking for, does not exist!' });
     }
   }
   res.status(500).json({ message: 'Internal Server Error!' });
