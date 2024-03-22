@@ -19,7 +19,7 @@ model User {
   email     String   @unique
   password  String
   createdAt DateTime @default(now())
-  updateAt  DateTime @updatedAt
+  updatedAt DateTime @updatedAt
 
   Artist         Artist[]
   Playlist       Playlist[]
@@ -27,55 +27,74 @@ model User {
   SongsLikes     SongsLikes[]
   ArtistsFollows ArtistsFollows[]
   PlaylistsLikes PlaylistsLikes[]
+
+  @@map("users")
 }
 
 model Song {
   id        Int      @id @default(autoincrement())
-  name      Int
+  name      String
   duration  Int
-  path      String   @unique
+  path      String
   artist_id Int
   createdAt DateTime @default(now())
-  updateAt  DateTime @updatedAt
+  updatedAt DateTime @updatedAt
 
   History         History[]
   SongsCategories SongsCategories[]
   Likes           SongsLikes[]
   Playlists       PlaylistsSongs[]
   Artist          Artist            @relation(fields: [artist_id], references: [id])
+
+  @@map("songs")
 }
 
 model Artist {
-  id      Int    @id @default(autoincrement())
-  name    String
-  avatar  String
-  user_id Int
+  id        Int      @id @default(autoincrement())
+  name      String
+  avatar    String
+  user_id   Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   User    User             @relation(fields: [user_id], references: [id])
   Songs   Song[]
   Follows ArtistsFollows[]
+
+  @@map("artists")
 }
 
 model Playlist {
-  id      Int    @id @default(autoincrement())
-  name    String
-  user_id Int
+  id        Int      @id @default(autoincrement())
+  name      String
+  user_id   Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   User  User             @relation(fields: [user_id], references: [id])
   Likes PlaylistsLikes[]
   Songs PlaylistsSongs[]
+
+  @@map("playlists")
 }
 
 model Category {
-  id              Int               @id @default(autoincrement())
-  name            String
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   SongsCategories SongsCategories[]
+
+  @@map("categories")
 }
 
 model History {
-  id      Int @id @default(autoincrement())
-  song_id Int
-  user_id Int
+  id        Int      @id @default(autoincrement())
+  song_id   Int
+  user_id   Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   Song Song @relation(fields: [song_id], references: [id])
   User User @relation(fields: [user_id], references: [id])
@@ -84,6 +103,8 @@ model History {
 model SongsCategories {
   category_id Int
   song_id     Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   Category Category @relation(fields: [category_id], references: [id])
   Song     Song     @relation(fields: [song_id], references: [id])
@@ -92,8 +113,10 @@ model SongsCategories {
 }
 
 model SongsLikes {
-  song_id Int
-  user_id Int
+  song_id   Int
+  user_id   Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   Song Song @relation(fields: [song_id], references: [id])
   User User @relation(fields: [user_id], references: [id])
@@ -104,29 +127,35 @@ model SongsLikes {
 model ArtistsFollows {
   artist_id Int
   user_id   Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   Artist Artist @relation(fields: [artist_id], references: [id])
   User   User   @relation(fields: [user_id], references: [id])
 
-  @@unique([artist_id, user_id], name: "song_user_id")
+  @@unique([artist_id, user_id], name: "artist_user_id")
 }
 
 model PlaylistsLikes {
   playlist_id Int
   user_id     Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   Playlist Playlist @relation(fields: [playlist_id], references: [id])
   User     User     @relation(fields: [user_id], references: [id])
 
-  @@unique([playlist_id, user_id], name: "song_user_id")
+  @@unique([playlist_id, user_id], name: "playlist_user_id")
 }
 
 model PlaylistsSongs {
   playlist_id Int
   song_id     Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   Playlist Playlist @relation(fields: [playlist_id], references: [id])
   Song     Song     @relation(fields: [song_id], references: [id])
 
-  @@unique([playlist_id, song_id], name: "song_user_id")
+  @@unique([playlist_id, song_id], name: "playlist_song_id")
 }

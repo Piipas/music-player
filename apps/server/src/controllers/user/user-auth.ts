@@ -15,8 +15,12 @@ export const signin = async (req: Request, res: Response, next: NextFunction) =>
     const comparePassword = await compare(password, user.password);
     if (!comparePassword) return res.status(401).json({ message: 'Username or password is incorrect!' });
 
-    const access_token = sign({ id: user.id }, env.JWT_ACCESS_TOKEN_SECRET, { expiresIn: '30s' });
-    const refresh_token = sign({ id: user.id }, env.JWT_REFRESH_TOKEN_SECRET, { expiresIn: '30m' });
+    const access_token = sign({ id: user.id }, env.JWT_ACCESS_TOKEN_SECRET, {
+      expiresIn: env.JWT_ACCESS_TOKEN_EXPIRY_DURATION,
+    });
+    const refresh_token = sign({ id: user.id }, env.JWT_REFRESH_TOKEN_SECRET, {
+      expiresIn: env.JWT_REFRESH_TOKEN_EXPIRY_DURATION,
+    });
 
     res.status(200).cookie('__rf__', refresh_token, { httpOnly: true, secure: true }).json({ access_token });
   } catch (error) {
@@ -33,8 +37,12 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
       data: { username, email, password: encryptedPassword },
     });
 
-    const access_token = sign({ id: user.id }, env.JWT_ACCESS_TOKEN_SECRET, { expiresIn: '30s' });
-    const refresh_token = sign({ id: user.id }, env.JWT_REFRESH_TOKEN_SECRET, { expiresIn: '30m' });
+    const access_token = sign({ id: user.id }, env.JWT_ACCESS_TOKEN_SECRET, {
+      expiresIn: env.JWT_ACCESS_TOKEN_EXPIRY_DURATION,
+    });
+    const refresh_token = sign({ id: user.id }, env.JWT_REFRESH_TOKEN_SECRET, {
+      expiresIn: env.JWT_REFRESH_TOKEN_EXPIRY_DURATION,
+    });
 
     res.status(200).cookie('__rf__', refresh_token, { httpOnly: true, secure: true }).json(access_token);
 
@@ -52,8 +60,12 @@ export const refreshToken = async (req: Request, res: Response, next: NextFuncti
 
     if (!payload) return res.status(401).json({ message: 'Refresh token expired or not valid!' });
 
-    const access_token = sign({ id: payload.id }, env.JWT_ACCESS_TOKEN_SECRET, { expiresIn: '30s' });
-    const refresh_token = sign({ id: payload.id }, env.JWT_REFRESH_TOKEN_SECRET, { expiresIn: '30m' });
+    const access_token = sign({ id: payload.id }, env.JWT_ACCESS_TOKEN_SECRET, {
+      expiresIn: env.JWT_ACCESS_TOKEN_EXPIRY_DURATION,
+    });
+    const refresh_token = sign({ id: payload.id }, env.JWT_REFRESH_TOKEN_SECRET, {
+      expiresIn: env.JWT_REFRESH_TOKEN_EXPIRY_DURATION,
+    });
 
     res
       .status(200)

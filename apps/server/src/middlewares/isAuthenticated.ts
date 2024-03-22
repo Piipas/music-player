@@ -10,6 +10,7 @@ export const isAuthenticated = async (req: Request, res: Response, next: NextFun
     const payload = jwtExtractor(access_token, env.JWT_ACCESS_TOKEN_SECRET);
     if (!payload) return res.status(401).json({ message: 'Unauthorized!' });
 
+    req.user = { id: payload.id };
     next();
   } catch (error) {
     next(error);
