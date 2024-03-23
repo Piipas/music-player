@@ -15,7 +15,7 @@ const port = env.PORT || 4000;
 app.use(express.json());
 app.use(cookieParser());
 
-app.use('/', AuthRouter);
+app.use('/auth', AuthRouter);
 app.use('/artists', isAuthenticated, ArtistRouter);
 app.use('/songs', isAuthenticated, SongRouter);
 app.use('/playlists', isAuthenticated, PlaylistRouter);

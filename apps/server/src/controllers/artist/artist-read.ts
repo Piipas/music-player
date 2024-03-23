@@ -28,20 +28,3 @@ export const getArtists = async (req: Request, res: Response, next: NextFunction
     next(error);
   }
 };
-
-export const getArtistSongs = async (req: Request, res: Response, next: NextFunction) => {
-  const { artist_id } = req.params;
-  const { limit, cursor } = req.query;
-
-  try {
-    const songs = await prismaClient.song.findMany({
-      where: { artist_id: parseInt(artist_id) },
-      take: Number(limit) || 10,
-      cursor: { id: Number(cursor) || 1 },
-    });
-
-    res.status(200).json(songs);
-  } catch (error) {
-    next(error);
-  }
-};

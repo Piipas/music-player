@@ -13,7 +13,7 @@ export const artistFollow = async (req: Request, res: Response, next: NextFuncti
       },
     });
 
-    res.sendStatus(200);
+    res.sendStatus(201);
   } catch (error) {
     next(error);
   }

@@ -40,3 +40,44 @@ export const streamSong = async (req: Request, res: Response, next: NextFunction
     next(error);
   }
 };
+
+export const getArtistSongs = async (req: Request, res: Response, next: NextFunction) => {
+  const { artist_id } = req.params;
+  const { limit, cursor } = req.query;
+
+  try {
+    const songs = await prismaClient.song.findMany({
+      where: { artist_id: parseInt(artist_id) },
+      take: Number(limit) || 10,
+      cursor: { id: Number(cursor) || 1 },
+    });
+
+    res.status(200).json(songs);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getPlaylistSongs = async (req: Request, res: Response, next: NextFunction) => {
+  const { playlist_id } = req.params;
+  const { limit, cursor } = req.query;
+
+  try {
+    const songs = await prismaClient.playlist.findMany({
+      where: { id: parseInt(playlist_id) },
+      select: {
+        Songs: {
+          select: {
+            Song: true,
+          },
+          take: Number(limit) || 10,
+          cursor: cursor
+            ? { playlist_song_id: { playlist_id: parseInt(playlist_id), song_id: Number(cursor) } }
+            : undefined,
+        },
+      },
+    });
+
+    res.status(200).json(songs);
+  } catch (error) {}
+};
