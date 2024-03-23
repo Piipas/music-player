@@ -1,18 +1,19 @@
 import axios from "@/lib/axios";
+import { RegisterType, SigninType } from "mp-validation";
 
 export const authApi = {
-  signin: async (credentials: { username: string; password: string }) => {
-    const signin = await axios.post("login", credentials);
+  signin: async (credentials: SigninType) => {
+    const signin = await axios.post("auth/login", credentials);
     localStorage.setItem("access_token", signin.data.access_token);
   },
 
-  register: async (credentials: { username: string; email: string; password: string; confirm_password: string }) => {
-    const register = await axios.post("register", credentials);
+  register: async (credentials: RegisterType) => {
+    const register = await axios.post("auth/register", credentials);
     localStorage.setItem("access_token", register.data.access_token);
   },
 
   refresh: async () => {
-    const refresh = await axios.post("refresh");
+    const refresh = await axios.post("auth/refresh");
     localStorage.setItem("access_token", refresh.data.access_token);
   },
 };

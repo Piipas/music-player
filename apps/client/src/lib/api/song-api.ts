@@ -1,4 +1,5 @@
 import axios from "@/lib/axios";
+import { PaginationType } from "mp-validation";
 
 export const songApi = {
   getSong: async (song_id: number) => {
@@ -11,14 +12,14 @@ export const songApi = {
     return song.data;
   },
 
-  getPlaylistSongs: async (params: { limit: number; cursor: number; [key: string]: any }, playlist_id: number) => {
+  getPlaylistSongs: async (params: PaginationType, playlist_id: number) => {
     const queryParams = new URLSearchParams();
     for (const param in params) if (params[param]) queryParams.append(param, String(params[param]));
     const songs = await axios.get(`songs/playlist/${playlist_id}?${queryParams.toString()}`);
     return songs.data;
   },
 
-  getArtistSong: async (params: { limit: number; cursor: number; [key: string]: any }, artist_id: number) => {
+  getArtistSong: async (params: PaginationType, artist_id: number) => {
     const queryParams = new URLSearchParams();
     for (const param in params) if (params[param]) queryParams.append(param, String(params[param]));
     const songs = await axios.get(`songs/playlist/${artist_id}?${queryParams.toString()}`);

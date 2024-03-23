@@ -3,6 +3,9 @@ import Home from "@/pages/Home";
 import AppLayout from "@/components/templates/app-layout";
 import Artist from "@/pages/Artist";
 import Playlist from "@/pages/Playlist";
+import Signin from "@/pages/Signin";
+import Register from "@/pages/Register";
+import AuthLayout from "@/components/templates/auth-layout";
 
 const routes: RouteObject[] = [
   {
@@ -14,16 +17,30 @@ const routes: RouteObject[] = [
         element: <Home />,
       },
       {
-        path: "/discover",
+        path: "discover",
         element: <Home />,
       },
       {
-        path: "/artist/:username",
+        path: "artist/:username",
         element: <Artist />,
       },
       {
-        path: "/playlist/:id",
+        path: "playlist/:id",
         element: <Playlist />,
+      },
+    ],
+  },
+  {
+    path: "auth",
+    element: <AuthLayout />,
+    children: [
+      {
+        path: "login",
+        element: <Signin />,
+      },
+      {
+        path: "register",
+        element: <Register />,
       },
     ],
   },

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import prismaClient from '@/utils/prisma-client';
+import { prismaClient } from 'mp-prisma';
 
 export const likePlaylist = async (req: Request, res: Response, next: NextFunction) => {
   const { playlist_id } = req.params;

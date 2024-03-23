@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import prismaClient from '@/utils/prisma-client';
+import { prismaClient } from 'mp-prisma';
 
 export const getArtist = async (req: Request, res: Response, next: NextFunction) => {
   const { artist_id } = req.params;

@@ -1,4 +1,4 @@
-import prismaClient from '@/utils/prisma-client';
+import { prismaClient } from 'mp-prisma';
 import { Request, Response, NextFunction } from 'express';
 
 export const artistUnfollow = async (req: Request, res: Response, next: NextFunction) => {

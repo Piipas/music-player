@@ -2,7 +2,7 @@ import { Axios } from "axios";
 
 const axios = new Axios({
   withCredentials: true,
-  baseURL: "http://localhost:4000/",
+  baseURL: "http://localhost:4001/",
   headers: {
     "Content-Type": "application/json",
   },

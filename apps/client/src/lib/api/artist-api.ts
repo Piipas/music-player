@@ -1,4 +1,5 @@
 import axios from "@/lib/axios";
+import { PaginationType } from "mp-validation";
 
 export const artistApi = {
   getArtist: async (artist_id: number) => {
@@ -6,7 +7,7 @@ export const artistApi = {
     return artist.data;
   },
 
-  getArtists: async (params: { limit: number; cursor: number; [key: string]: any }) => {
+  getArtists: async (params: PaginationType) => {
     const queryParams = new URLSearchParams();
     for (const param in params) if (params[param]) queryParams.append(param, String(params[param]));
     const artists = await axios.get(`artists?${queryParams.toString()}`);

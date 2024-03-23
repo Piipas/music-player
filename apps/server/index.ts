@@ -1,4 +1,5 @@
 import express, { NextFunction, Request, Response } from 'express';
+import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { env } from 'env';
 
@@ -6,12 +7,13 @@ import ArtistRouter from '@/routes/artist-router';
 import SongRouter from '@/routes/song-router';
 import PlaylistRouter from '@/routes/playlist-router';
 import AuthRouter from '@/routes/auth-router';
-import { Prisma } from '@prisma/client';
+import { Prisma } from 'mp-prisma';
 import { isAuthenticated } from '@/middlewares/isAuthenticated';
 
 const app = express();
 const port = env.PORT || 4000;
 
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
