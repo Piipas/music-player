@@ -6,7 +6,7 @@ import { authApi } from "@/lib/api/auth-api";
 import { useNavigate } from "react-router-dom";
 import { Input } from "../atoms/input";
 import { Button } from "../atoms/button";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "../atoms/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/atoms/form";
 
 const SigninForm = () => {
   const navigate = useNavigate();
@@ -21,7 +21,8 @@ const SigninForm = () => {
       await authApi.signin(credentials);
     },
     onSuccess: () => {
-      navigate("/");
+      // navigate("/");
+      console.log("Success");
     },
     onError: (error) => {
       console.log(error);
@@ -52,7 +53,7 @@ const SigninForm = () => {
             render={({ field }) => (
               <FormItem className="space-y-0">
                 <FormControl>
-                  <Input placeholder="Password" {...field} />
+                  <Input placeholder="Password" type="password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

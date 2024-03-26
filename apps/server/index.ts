@@ -13,26 +13,27 @@ import { isAuthenticated } from '@/middlewares/isAuthenticated';
 const app = express();
 const port = env.PORT || 4000;
 
-app.use(cors());
-app.use(express.json());
-app.use(cookieParser());
+app
+  .use(cors({ origin: '*', credentials: true, allowedHeaders: ['Authorization', 'Content-Type'] }))
+  .use(express.json())
+  .use(cookieParser())
 
-app.use('/auth', AuthRouter);
-app.use('/artists', isAuthenticated, ArtistRouter);
-app.use('/songs', isAuthenticated, SongRouter);
-app.use('/playlists', isAuthenticated, PlaylistRouter);
+  .use('/auth', AuthRouter)
+  .use('/artists', isAuthenticated, ArtistRouter)
+  .use('/songs', isAuthenticated, SongRouter)
+  .use('/playlists', isAuthenticated, PlaylistRouter)
 
-app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
-  if (env.NODE_ENV === 'development') console.log(error);
-  if (error instanceof Prisma.PrismaClientKnownRequestError) {
-    switch (error.code) {
-      case 'P2002':
-        return res.status(409).json({ message: 'You are trying to insert an item with an existing unique value!' });
-      case 'P2025':
-        return res.status(404).json({ message: 'The item you are looking for, does not exist!' });
+  .use((error: Error, req: Request, res: Response, next: NextFunction) => {
+    if (env.NODE_ENV === 'development') console.log(error);
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      switch (error.code) {
+        case 'P2002':
+          return res.status(409).json({ message: 'You are trying to insert an item with an existing unique value!' });
+        case 'P2025':
+          return res.status(404).json({ message: 'The item you are looking for, does not exist!' });
+      }
     }
-  }
-  res.status(500).json({ message: 'Internal Server Error!' });
-});
+    res.status(500).json({ message: 'Internal Server Error!' });
+  })
 
-app.listen(port, () => console.log(`Server started at http://localhost:${port}`));
+  .listen(port, () => console.log(`Server started at http://localhost:${port}`));

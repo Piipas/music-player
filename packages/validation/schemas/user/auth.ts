@@ -4,8 +4,8 @@ const usernameRegex = new RegExp(/^[a-zA-Z0-9]+([._]?[a-zA-Z0-9]+)*$/gi);
 const passwordRegex = new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z]).{8,}$/);
 
 export const signinBodySchema = z.object({
-    username: z.string().max(255),
-    password: z.string().max(40),
+    username: z.string({ required_error: "Username is required!" }).max(255),
+    password: z.string({ required_error: "Password is required!" }).max(40),
 });
 
 export const registerBodySchema = z
