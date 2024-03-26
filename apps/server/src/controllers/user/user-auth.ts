@@ -58,7 +58,7 @@ export const refreshToken = async (req: Request, res: Response, next: NextFuncti
   try {
     const payload = jwtExtractor(refreshToken, env.JWT_REFRESH_TOKEN_SECRET);
 
-    if (!payload) return res.status(401).json({ message: 'Refresh token expired or not valid!' });
+    if (!payload) return res.status(403).json({ message: 'Refresh token expired or not valid!' });
 
     const access_token = sign({ id: payload.id }, env.JWT_ACCESS_TOKEN_SECRET, {
       expiresIn: env.JWT_ACCESS_TOKEN_EXPIRY_DURATION,
@@ -75,4 +75,10 @@ export const refreshToken = async (req: Request, res: Response, next: NextFuncti
     console.log(error);
     next(error);
   }
+};
+
+export const me = (req: Request, res: Response, next: NextFunction) => {
+  const { id } = req.user;
+
+  res.status(200);
 };

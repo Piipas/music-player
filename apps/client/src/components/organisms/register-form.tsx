@@ -1,4 +1,4 @@
-import { RegisterType, signinBodySchema } from "mp-validation";
+import { registerBodySchema, RegisterType, signinBodySchema } from "mp-validation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -13,7 +13,7 @@ const RegisterForm = () => {
   const navigate = useNavigate();
 
   const registerForm = useForm<RegisterType>({
-    resolver: zodResolver(signinBodySchema),
+    resolver: zodResolver(registerBodySchema),
     defaultValues: { username: "", email: "", password: "", confirm_password: "" },
   });
 
@@ -37,10 +37,10 @@ const RegisterForm = () => {
             name="username"
             render={({ field }) => (
               <FormItem className="space-y-0">
+                <FormMessage className="font-light" />
                 <FormControl>
                   <Input placeholder="Username" {...field} />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -49,10 +49,10 @@ const RegisterForm = () => {
             name="email"
             render={({ field }) => (
               <FormItem className="space-y-0">
+                <FormMessage className="font-light" />
                 <FormControl>
                   <Input placeholder="Email" {...field} />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -61,10 +61,10 @@ const RegisterForm = () => {
             name="password"
             render={({ field }) => (
               <FormItem className="space-y-0">
+                <FormMessage className="font-light" />
                 <FormControl>
                   <Input placeholder="Password" type={"password"} {...field} />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -73,14 +73,14 @@ const RegisterForm = () => {
             name="confirm_password"
             render={({ field }) => (
               <FormItem className="space-y-0">
+                <FormMessage className="font-light" />
                 <FormControl>
                   <Input placeholder="Password confirmation" type={"password"} {...field} />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
-          <Button className="w-full bg-main text-white gap-2">{isPending && <LoaderCircle />}Register</Button>
+          <Button className="w-full bg-main text-white gap-2">{isPending ? <LoaderCircle /> : "Register"}</Button>
         </div>
       </form>
     </Form>

@@ -1,22 +1,29 @@
 import { z } from "zod";
 
 const usernameRegex = new RegExp(/^[a-zA-Z0-9]+([._]?[a-zA-Z0-9]+)*$/gi);
-const passwordRegex = new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z]).{8,}$/);
+const passwordRegex = new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z]).*$/);
 
 export const signinBodySchema = z.object({
-    username: z.string({ required_error: "Username is required!" }).max(255),
+    username: z
+        .string({ required_error: "Username is required!" })
+        .regex(usernameRegex, { message: "Invalid username" })
+        .max(255),
     password: z.string({ required_error: "Password is required!" }).max(40),
 });
 
 export const registerBodySchema = z
     .object({
-        username: z.string().min(3).max(255).regex(usernameRegex),
+        username: z
+            .string()
+            .min(3)
+            .max(255)
+            .regex(usernameRegex, { message: "Invalid username" }),
         email: z.string().email(),
         password: z.string().regex(passwordRegex).min(8).max(40),
-        confirm_password: z.string().max(40),
+        confirm_password: z.string().regex(passwordRegex).min(8).max(40),
     })
-    .refine((data) => data.password !== data.confirm_password, {
-        message: "Password do not match!",
+    .refine(({ password, confirm_password }) => password === confirm_password, {
+        message: "Passwords do not match!",
         path: ["confirm_password"],
     });
 
