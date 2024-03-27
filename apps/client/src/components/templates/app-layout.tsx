@@ -1,10 +1,19 @@
 import LeftSidebar from "@/components/organisms/left-sidebar";
 import Header from "@/components/organisms/header";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import Player from "@/components/organisms/player";
 import History from "@/components/organisms/history";
+import { useAuth } from "@/providers/auth-provider";
+import { useEffect } from "react";
 
 const AppLayout = () => {
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    !isAuthenticated && navigate("/login");
+  }, []);
+
   return (
     <div className="grid grid-cols-12 h-screen">
       <LeftSidebar />

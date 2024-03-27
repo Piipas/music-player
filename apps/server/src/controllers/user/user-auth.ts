@@ -77,8 +77,13 @@ export const refreshToken = async (req: Request, res: Response, next: NextFuncti
   }
 };
 
-export const me = (req: Request, res: Response, next: NextFunction) => {
+export const me = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.user;
 
-  res.status(200);
+  const user = await prismaClient.user.findUnique({
+    where: { id },
+    select: { username: true },
+  });
+
+  res.status(200).json(user);
 };

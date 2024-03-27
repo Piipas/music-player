@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { ProvidersProps } from ".";
 import { useQuery } from "@tanstack/react-query";
 import { authApi } from "@/lib/api/auth-api";
@@ -17,7 +17,9 @@ const AuthProvider = ({ children }: ProvidersProps): React.ReactNode => {
 
   const { data, isSuccess } = useQuery({ queryKey: ["me"], queryFn: async () => await authApi.me() });
 
-  if (isSuccess) setUser(data), setIsAuthenticated(false);
+  useEffect(() => {
+    if (isSuccess) setUser(data), setIsAuthenticated(true);
+  }, [isSuccess]);
 
   return <AuthContext.Provider value={{ user, isAuthenticated }}>{children}</AuthContext.Provider>;
 };
