@@ -14,7 +14,7 @@ const app = express();
 const port = env.PORT || 4000;
 
 app
-  .use(cors({ origin: '*', credentials: true, allowedHeaders: ['Authorization', 'Content-Type'] }))
+  .use(cors({ origin: 'http://localhost:5173', credentials: true, allowedHeaders: ['Authorization', 'Content-Type'] }))
   .use(express.json())
   .use(cookieParser())
 

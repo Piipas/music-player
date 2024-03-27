@@ -3,10 +3,10 @@ import { authApi } from "./api/auth-api";
 
 const authRoutes = ["auth/login", "auth/register", "auth/refresh"];
 const axios = ax.create({
-  // withCredentials: true,
   baseURL: "http://localhost:4001/",
+  withCredentials: true,
   headers: {
-    "Content-Type": "application/json",
+    Accept: "Content-Type",
   },
 });
 

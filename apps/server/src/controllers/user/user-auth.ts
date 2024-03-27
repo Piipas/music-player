@@ -22,7 +22,15 @@ export const signin = async (req: Request, res: Response, next: NextFunction) =>
       expiresIn: env.JWT_REFRESH_TOKEN_EXPIRY_DURATION,
     });
 
-    res.status(200).cookie('__rf__', refresh_token, { httpOnly: true, secure: true }).json({ access_token });
+    res
+      .status(200)
+      .cookie('__rf__', refresh_token, {
+        httpOnly: true,
+        secure: true,
+        // sameSite: 'strict',
+        expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+      })
+      .json({ access_token });
   } catch (error) {
     next(error);
   }
@@ -44,19 +52,25 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
       expiresIn: env.JWT_REFRESH_TOKEN_EXPIRY_DURATION,
     });
 
-    res.status(200).cookie('__rf__', refresh_token, { httpOnly: true, secure: true }).json(access_token);
-
-    res.status(200).json(access_token);
+    res
+      .status(200)
+      .cookie('__rf__', refresh_token, {
+        httpOnly: true,
+        secure: true,
+        // sameSite: 'strict',
+        expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+      })
+      .json({ access_token });
   } catch (error) {
     next(error);
   }
 };
 
 export const refreshToken = async (req: Request, res: Response, next: NextFunction) => {
-  const refreshToken = req.cookies.__rf__;
+  const { __rf__: refreshToken } = req.cookies;
 
   try {
-    const payload = jwtExtractor(refreshToken, env.JWT_REFRESH_TOKEN_SECRET);
+    const payload = jwtExtractor(refreshToken, env.JWT_REFRESH_TOKEN_SECRET, false);
 
     if (!payload) return res.status(403).json({ message: 'Refresh token expired or not valid!' });
 
@@ -69,8 +83,13 @@ export const refreshToken = async (req: Request, res: Response, next: NextFuncti
 
     res
       .status(200)
-      .cookie('__rf__', refresh_token, { httpOnly: true, secure: true, sameSite: 'strict' })
-      .json(access_token);
+      .cookie('__rf__', refresh_token, {
+        httpOnly: true,
+        secure: true,
+        // sameSite: 'strict',
+        expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+      })
+      .json({ access_token });
   } catch (error) {
     console.log(error);
     next(error);
@@ -80,10 +99,6 @@ export const refreshToken = async (req: Request, res: Response, next: NextFuncti
 export const me = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.user;
 
-  const user = await prismaClient.user.findUnique({
-    where: { id },
-    select: { username: true },
-  });
-
+  const user = await prismaClient.user.findUnique({ where: { id }, select: { username: true } });
   res.status(200).json(user);
 };

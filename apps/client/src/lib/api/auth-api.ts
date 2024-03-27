@@ -15,6 +15,7 @@ export const authApi = {
   refresh: async () => {
     const { data } = await axios.post("auth/refresh");
     localStorage.setItem("access_token", data.access_token);
+    return data;
   },
 
   me: async () => {

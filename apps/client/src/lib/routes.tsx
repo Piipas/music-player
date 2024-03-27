@@ -31,7 +31,6 @@ const routes: RouteObject[] = [
     ],
   },
   {
-    path: "/",
     element: <AuthLayout />,
     children: [
       {

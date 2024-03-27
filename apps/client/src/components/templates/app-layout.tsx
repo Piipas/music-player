@@ -3,31 +3,31 @@ import Header from "@/components/organisms/header";
 import { Outlet, useNavigate } from "react-router-dom";
 import Player from "@/components/organisms/player";
 import History from "@/components/organisms/history";
-import { useAuth } from "@/providers/auth-provider";
-import { useEffect } from "react";
+import useAuth from "@/hooks/useAuth";
 
 const AppLayout = () => {
-  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const { isError, isSuccess, isLoading } = useAuth();
 
-  useEffect(() => {
-    !isAuthenticated && navigate("/login");
-  }, []);
+  if (isError && !isLoading) navigate("/login");
 
   return (
-    <div className="grid grid-cols-12 h-screen">
-      <LeftSidebar />
-      <div className="h-full col-span-10 relative">
-        <Header />
-        <div className="grid grid-cols-12 gap-4 p-4 h-[calc(100vh-64px-80px)]">
-          <div className="container col-span-9 overflow-auto scroll layout-scrollbar">
-            <Outlet />
+    isSuccess &&
+    !isLoading && (
+      <div className="grid grid-cols-12 h-screen">
+        <LeftSidebar />
+        <div className="h-full col-span-10 relative">
+          <Header />
+          <div className="grid grid-cols-12 gap-4 p-4 h-[calc(100vh-64px-80px)]">
+            <div className="container col-span-9 overflow-auto scroll layout-scrollbar">
+              <Outlet />
+            </div>
+            <History />
           </div>
-          <History />
+          <Player />
         </div>
-        <Player />
       </div>
-    </div>
+    )
   );
 };
 

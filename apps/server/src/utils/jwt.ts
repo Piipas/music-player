@@ -1,9 +1,10 @@
 import { JwtPayload, verify, VerifyErrors } from 'jsonwebtoken';
 
-export const jwtExtractor = (jwtToken: string, secret: string) => {
+export const jwtExtractor = (jwtToken: string, secret: string, withBearer: boolean = true) => {
   try {
-    if (!jwtToken.startsWith('Bearer')) return null;
-    const token = jwtToken.split(' ')[1];
+    if (!jwtToken.startsWith('Bearer') && withBearer) return null;
+    const token = jwtToken.split(' ')[Number(withBearer)];
+    console.log(Number(withBearer));
     return verify(token, secret) as JwtPayload;
   } catch (error) {
     return false;
