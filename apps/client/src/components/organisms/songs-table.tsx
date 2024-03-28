@@ -2,17 +2,12 @@ import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@
 import { Clock, Heart } from "lucide-react";
 import { Button } from "../atoms/button";
 import { useNavigate } from "react-router-dom";
+import { Prisma } from "mp-prisma";
+import { milliToTime } from "@/lib/utils";
 
-export interface SongsTableType {
-  name: string;
-  image: string;
-  duration: string;
-  artist: string;
-  isLiked: boolean;
-}
-
-function SongsTable({ songs }: { songs: SongsTableType[] }) {
+function SongsTable({ songs }: { songs: Prisma.SongGetPayload<{ include: { Artist: true; Likes: true } }>[] }) {
   const navigate = useNavigate();
+
   return (
     <div className="w-full pt-4">
       <Table>
@@ -27,20 +22,21 @@ function SongsTable({ songs }: { songs: SongsTableType[] }) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {songs.map(({ name, image, duration, artist, isLiked }) => (
+          {songs.map(({ name, image, duration, Artist, Likes }) => (
             <TableRow>
-              <TableCell className="font-medium flex gap-2 items-center">
-                <img src={image} className="w-10 h-10 rounded-md" alt="" /> {name}
+              <TableCell className="font-medium flex gap-3 items-center capitalize">
+                {/* <img src={image} className="w-10 h-10 rounded-md" alt="" /> {name} */}
+                <img src={"https://github.com/shadcn.png"} className="w-10 h-10 rounded-md" alt="" /> {name}
               </TableCell>
               <TableCell>
-                <Button variant={"link"} onClick={() => navigate(`/artist/${artist}`)}>
-                  {artist}
+                <Button variant={"link"} className="p-0" onClick={() => navigate(`/artist/${Artist.id}`)}>
+                  {Artist.name}
                 </Button>
               </TableCell>
-              <TableCell>{duration}</TableCell>
+              <TableCell>{milliToTime(duration)}</TableCell>
               <TableCell>
                 <Button variant={"ghost"}>
-                  <Heart className={isLiked ? "fill-main stroke-main" : ""} size={18} />
+                  <Heart className={Likes.length ? "fill-main stroke-main" : ""} size={18} />
                 </Button>
               </TableCell>
             </TableRow>

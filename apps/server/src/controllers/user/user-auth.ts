@@ -91,7 +91,6 @@ export const refreshToken = async (req: Request, res: Response, next: NextFuncti
       })
       .json({ access_token });
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };

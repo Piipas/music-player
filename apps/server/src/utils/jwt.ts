@@ -4,7 +4,6 @@ export const jwtExtractor = (jwtToken: string, secret: string, withBearer: boole
   try {
     if (!jwtToken.startsWith('Bearer') && withBearer) return null;
     const token = jwtToken.split(' ')[Number(withBearer)];
-    console.log(Number(withBearer));
     return verify(token, secret) as JwtPayload;
   } catch (error) {
     return false;

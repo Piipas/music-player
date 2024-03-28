@@ -23,7 +23,7 @@ export const registerBodySchema = z
         confirm_password: z.string().regex(passwordRegex).min(8).max(40),
     })
     .refine(({ password, confirm_password }) => password === confirm_password, {
-        message: "Passwords do not match!",
+        message: "Passwords don't match!",
         path: ["confirm_password"],
     });
 

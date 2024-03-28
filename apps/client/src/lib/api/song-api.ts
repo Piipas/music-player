@@ -22,8 +22,13 @@ export const songApi = {
   getArtistSong: async (params: PaginationType, artist_id: number) => {
     const queryParams = new URLSearchParams();
     for (const param in params) if (params[param]) queryParams.append(param, String(params[param]));
-    const songs = await axios.get(`songs/playlist/${artist_id}?${queryParams.toString()}`);
+    const songs = await axios.get(`songs/artist/${artist_id}?${queryParams.toString()}`);
     return songs.data;
+  },
+
+  getHistory: async () => {
+    const { data } = await axios.get("songs/history");
+    return data;
   },
 
   likeSong: async (song_id: number) => {

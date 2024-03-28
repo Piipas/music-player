@@ -2,8 +2,7 @@ import { authApi } from "@/lib/api/auth-api";
 import { useQuery } from "@tanstack/react-query";
 
 const useAuth = () => {
-  const { isSuccess, isError, isLoading, data } = useQuery({ queryKey: ["isAuthenticated"], queryFn: authApi.refresh });
-  console.log(isSuccess, isError, isLoading, data);
+  const { isSuccess, isError, isLoading } = useQuery({ queryKey: ["isAuthenticated"], queryFn: authApi.refresh });
   return { isSuccess, isError, isLoading };
 };
 

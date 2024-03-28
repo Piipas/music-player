@@ -44,10 +44,13 @@ export const streamSong = async (req: Request, res: Response, next: NextFunction
 export const getArtistSongs = async (req: Request, res: Response, next: NextFunction) => {
   const { artist_id } = req.params;
   const { limit, cursor } = req.query;
+  const { id } = req.user;
 
+  console.log({ limit, cursor, artist_id });
   try {
     const songs = await prismaClient.song.findMany({
       where: { artist_id: parseInt(artist_id) },
+      include: { Artist: true, Likes: { where: { user_id: id } } },
       take: Number(limit) || 10,
       cursor: { id: Number(cursor) || 1 },
     });
@@ -61,23 +64,36 @@ export const getArtistSongs = async (req: Request, res: Response, next: NextFunc
 export const getPlaylistSongs = async (req: Request, res: Response, next: NextFunction) => {
   const { playlist_id } = req.params;
   const { limit, cursor } = req.query;
+  const { id } = req.user;
 
   try {
-    const songs = await prismaClient.playlist.findMany({
-      where: { id: parseInt(playlist_id) },
-      select: {
-        Songs: {
-          select: {
-            Song: true,
-          },
-          take: Number(limit) || 10,
-          cursor: cursor
-            ? { playlist_song_id: { playlist_id: parseInt(playlist_id), song_id: Number(cursor) } }
-            : undefined,
-        },
-      },
+    const songs = await prismaClient.song.findMany({
+      where: { Playlists: { some: { playlist_id: parseInt(playlist_id) } } },
+      include: { Artist: true, Likes: { where: { user_id: id } } },
+      take: Number(limit) || 10,
+      cursor: { id: Number(cursor) || 1 },
     });
 
     res.status(200).json(songs);
-  } catch (error) {}
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getHistory = async (req: Request, res: Response, next: NextFunction) => {
+  const { id } = req.user;
+
+  try {
+    const history = await prismaClient.history.findMany({
+      where: { user_id: Number(id) },
+      include: { Song: { include: { Artist: true, Likes: { where: { user_id: Number(id) } } } } },
+      distinct: ['song_id'],
+      orderBy: { createdAt: 'desc' },
+      take: 8,
+    });
+
+    res.status(200).json(history);
+  } catch (error) {
+    next(error);
+  }
 };

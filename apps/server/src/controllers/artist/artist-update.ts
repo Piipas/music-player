@@ -24,6 +24,6 @@ export const toggleFollowArtist = async (req: Request, res: Response, next: Next
 
     res.status(200).json({ following: !isFollowing });
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 };

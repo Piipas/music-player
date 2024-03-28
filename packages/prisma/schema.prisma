@@ -36,6 +36,7 @@ model Song {
   name      String
   duration  Int
   path      String
+  image     String
   artist_id Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
