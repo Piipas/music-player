@@ -16,8 +16,8 @@ function Player() {
           <img src="https://github.com/shadcn.png" alt="artist" />
         </div>
         <div className="ps-2 -space-y-1">
-          <div className="text-lg font-semibold">Rap God</div>
-          <div className="text-sm opacity-50">Eminem</div>
+          <div className="text-lg font-semibold">{currentSong ? currentSong.name : "Rap God"}</div>
+          <div className="text-sm opacity-50">{currentSong ? currentSong.Artist.name : "Eminem"}</div>
         </div>
       </div>
       <div className="flex gap-3 items-center">

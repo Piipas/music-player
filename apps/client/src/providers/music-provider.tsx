@@ -1,29 +1,23 @@
 import { createContext, useContext, useState } from "react";
-import { Song } from "mp-prisma";
+import { Artist, Prisma, Song } from "mp-prisma";
 import { ProvidersProps } from ".";
+import useSong from "@/hooks/useSong";
 
 type MusicContextType = {
-  currentSong: Song | null | undefined;
+  currentSong: Prisma.SongGetPayload<{ include: { Artist: true } }> | null | undefined;
   isPlaying: boolean;
-  play: null | ((song: Song) => void);
-  pause: null | (() => void);
-};
+  play: () => void;
+  playSong: (song: Prisma.SongGetPayload<{ include: { Artist: true } }>) => void;
+  pause: () => void;
+} | null;
 
-const initialValues: MusicContextType = {
-  currentSong: null,
-  isPlaying: false,
-  play: null,
-  pause: null,
-};
-
-const MusicContext = createContext<MusicContextType>(initialValues);
+const MusicContext = createContext<MusicContextType>(null);
 
 export const MusicProvider = ({ children }: ProvidersProps) => {
-  const [currentSong, setCurrentSong] = useState<Song | null>();
+  const [currentSong, setCurrentSong] = useState<Prisma.SongGetPayload<{ include: { Artist: true } }> | null>();
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
-  const play = (song: Song) => {
-    setCurrentSong(song);
+  const play = () => {
     setIsPlaying(true);
   };
 
@@ -31,7 +25,14 @@ export const MusicProvider = ({ children }: ProvidersProps) => {
     setIsPlaying(false);
   };
 
-  return <MusicContext.Provider value={{ currentSong, isPlaying, play, pause }}>{children}</MusicContext.Provider>;
+  const playSong = async (song: Prisma.SongGetPayload<{ include: { Artist: true } }>) => {
+    const { audio, isLoading, audioRef } = useSong(song.id);
+    if (!isLoading) setCurrentSong(song), setIsPlaying(true);
+  };
+
+  return (
+    <MusicContext.Provider value={{ currentSong, isPlaying, play, playSong, pause }}>{children}</MusicContext.Provider>
+  );
 };
 
 export const useMusic = () => useContext(MusicContext);

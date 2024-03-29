@@ -12,14 +12,14 @@ function History() {
   const { data: history, isLoading } = useQuery({ queryKey: ["history"], queryFn: songApi.getHistory });
 
   return (
-    isLoading || (
-      <div className="h-full col-span-3 bg-slate-800 rounded-xl p-4">
-        <div className="text-lg flex gap-4 font-semibold pb-2 border-b border-gray-700 text-white">
-          <HistoryIcon /> Recently played
-        </div>
-        <ul className="p-3 flex gap-y-3 flex-wrap">
-          {history.map(({ Song: { name, Artist, Likes } }: HistorySongType) => (
-            <li className="flex gap-4 items-center w-full pe-2">
+    <div className="h-full col-span-3 bg-slate-800 rounded-xl p-4">
+      <div className="text-lg flex gap-4 font-semibold pb-2 border-b border-gray-700 text-white">
+        <HistoryIcon /> Recently played
+      </div>
+      <ul className="p-3 flex gap-y-3 flex-wrap">
+        {isLoading ||
+          history.map(({ Song: { name, Artist, Likes } }: HistorySongType) => (
+            <li className="flex gap-4 items-center w-full pe-2" key={name}>
               <div className="w-12 h-12 overflow-hidden rounded-md">
                 <img src={"https://github.com/shadcn.png"} alt={`${name} avatar`} />
               </div>
@@ -32,9 +32,8 @@ function History() {
               </Button>
             </li>
           ))}
-        </ul>
-      </div>
-    )
+      </ul>
+    </div>
   );
 }
 
