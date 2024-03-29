@@ -1,6 +1,7 @@
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ReactNode } from "react";
+import { MusicProvider } from "./music-provider";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -17,8 +18,8 @@ export interface ProvidersProps {
 export function Providers({ children }: ProvidersProps) {
   return (
     <QueryClientProvider client={queryClient}>
-      {children}
-      <ReactQueryDevtools initialIsOpen={false} position="right" />
+      <MusicProvider>{children}</MusicProvider>
+      <ReactQueryDevtools initialIsOpen={false} position="right" buttonPosition="top-left" />
     </QueryClientProvider>
   );
 }
