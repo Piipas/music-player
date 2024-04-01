@@ -8,7 +8,10 @@ export const songApi = {
   },
 
   streamSong: async (song_id: number) => {
-    const song = await axios.get(`songs/${song_id}/stream`, { responseType: "stream" });
+    const song = await axios.get(`songs/${song_id}/stream`, {
+      responseType: "arraybuffer",
+      headers: { "Content-Type": "audio/mpeg" },
+    });
     return song.data;
   },
 

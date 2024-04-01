@@ -2,14 +2,22 @@ import { Pause, Play, SkipBack, SkipForward, Volume2 } from "lucide-react";
 import { Button } from "@/components/atoms/button";
 import { Slider } from "@/components/atoms/slider";
 import { useMusic } from "@/providers/music-provider";
+import useSong from "@/hooks/useSong";
 
 function Player() {
   const { currentSong, isPlaying, play, pause } = useMusic();
+  const { audioRef } = useSong(currentSong ? currentSong.id : Number(localStorage.getItem("current-song")));
 
   return (
     <div className="h-20 border-t border-gray-600 w-full py-2 px-4 flex justify-between relative z-50 bg-background">
       <div className="absolute top-0 left-0 -translate-y-1/2 w-full">
-        <Slider defaultValue={[50]} max={100} step={1} className="w-full" />
+        <Slider
+          defaultValue={[50]}
+          value={[audioRef.current.currentTime]}
+          // max={Math.ceil(audioRef.current.duration)}
+          step={1}
+          className="w-full"
+        />
       </div>
       <div className="h-ful flex items-center">
         <div className="w-16 rounded-md overflow-hidden">
@@ -24,7 +32,11 @@ function Player() {
         <Button size={"icon"} variant={"ghost"} className="rounded-full">
           <SkipBack />
         </Button>
-        <Button size={"icon"} className="rounded-full" onClick={isPlaying ? () => play : () => pause}>
+        <Button
+          size={"icon"}
+          className="rounded-full"
+          onClick={isPlaying ? () => pause(audioRef.current) : () => play(audioRef.current)}
+        >
           {isPlaying ? <Pause /> : <Play />}
         </Button>
         <Button size={"icon"} variant={"ghost"} className="rounded-full">

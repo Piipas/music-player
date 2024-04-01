@@ -46,7 +46,6 @@ export const getArtistSongs = async (req: Request, res: Response, next: NextFunc
   const { limit, cursor } = req.query;
   const { id } = req.user;
 
-  console.log({ limit, cursor, artist_id });
   try {
     const songs = await prismaClient.song.findMany({
       where: { artist_id: parseInt(artist_id) },
