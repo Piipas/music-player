@@ -4,10 +4,8 @@ import wallpaper from "@/assets/eminem-wallpaper.jpg";
 import SongsTable from "@/components/organisms/songs-table";
 import useSongs from "@/hooks/useSongs";
 import { useParams } from "react-router-dom";
-
-const artist = {
-  name: "Billie Eilish",
-};
+import { useQuery } from "@tanstack/react-query";
+import { artistApi } from "@/lib/api/artist-api";
 
 function Artist() {
   const { id } = useParams();
@@ -17,9 +15,14 @@ function Artist() {
     cursor: "0",
     limit: "10",
   });
+  const { data: artist, isPending } = useQuery({
+    queryKey: ["artist", Number(id)],
+    queryFn: () => artistApi.getArtist(Number(id)),
+  });
 
   return (
-    isLoading || (
+    isLoading ||
+    isPending || (
       <>
         <div className="w-full rounded-2xl border-2 border-white h-48 p-6 flex items-center relative overflow-hidden">
           <img src={wallpaper} className="w-full absolute top-0 left-0 opacity-30" alt="" />

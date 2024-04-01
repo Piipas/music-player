@@ -11,6 +11,7 @@ router.get('/:song_id/stream', streamSong);
 router.get('/playlist/:playlist_id', getPlaylistSongs);
 router.get('/artist/:artist_id', getArtistSongs);
 
-router.route('/:song_id/like').post(likeSong).delete(unlikeSong);
+router.post('/:song_id/like', likeSong);
+router.delete('/:song_id/unlike', unlikeSong);
 
 export default router;

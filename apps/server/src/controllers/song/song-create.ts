@@ -6,14 +6,14 @@ export const likeSong = async (req: Request, res: Response, next: NextFunction) 
   const { id } = req.user;
 
   try {
-    await prismaClient.songsLikes.create({
+    const like = await prismaClient.songsLikes.create({
       data: {
         song_id: parseInt(song_id),
         user_id: id,
       },
     });
 
-    res.sendStatus(201);
+    res.status(201).json(like);
   } catch (error) {
     next(error);
   }

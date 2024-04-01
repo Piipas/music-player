@@ -50,6 +50,9 @@ importers:
       clsx:
         specifier: ^2.1.0
         version: 2.1.0
+      imagekitio-react:
+        specifier: ^4.0.0
+        version: 4.0.0(react-dom@18.2.0)(react@18.2.0)
       lucide-react:
         specifier: ^0.358.0
         version: 0.358.0(react@18.2.0)
@@ -3485,6 +3488,22 @@ packages:
     engines: {node: '>= 4'}
     dev: true
 
+  /imagekit-javascript@3.0.0:
+    resolution: {integrity: sha512-39Q54v1fwRlCYnVyalfRi9UFuUq4t+vnktWUzqjBHRguOB+wLNnAEuPbNbm0NUBJAUw5He4C1k/0vbNLOvU/4g==}
+    dev: false
+
+  /imagekitio-react@4.0.0(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-O7dsPnAb92JCtHsl8RqOAYq8uhJR98VgC+ddHXNStaS6Frj6u4pQ4ftdtISfh8AMnZj/celnsdv0qOuj81RHhw==}
+    peerDependencies:
+      react: ^16.13.1 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.13.1 || ^17.0.0 || ^18.0.0
+    dependencies:
+      imagekit-javascript: 3.0.0
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
   /import-fresh@3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
     engines: {node: '>=6'}
@@ -4317,7 +4336,6 @@ packages:
       loose-envify: 1.4.0
       object-assign: 4.1.1
       react-is: 16.13.1
-    dev: true
 
   /proxy-addr@2.0.7:
     resolution: {integrity: sha512-llQsMLSUDUPT44jdrU/O37qlnifitDP+ZwrmmZcoSKyLKvtZxpyV0n2/bD/N4tBAAZ/gJEdZU7KMraoK1+XYAg==}
@@ -4382,7 +4400,6 @@ packages:
 
   /react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
-    dev: true
 
   /react-refresh@0.14.0:
     resolution: {integrity: sha512-wViHqhAd8OHeLS/IRMJjTSDHF3U9eWi62F/MledQGPdJGDhodXJ9PBLNGr6WWL7qlH12Mt3TyTpbS+hGXMjCzQ==}

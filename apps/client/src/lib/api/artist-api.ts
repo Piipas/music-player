@@ -1,13 +1,14 @@
 import axios from "@/lib/axios";
+import { Artist } from "mp-prisma";
 import { PaginationType } from "mp-validation";
 
 export const artistApi = {
   getArtist: async (artist_id: number) => {
-    const artist = await axios.get(`artists/${artist_id}`);
-    return artist.data;
+    const { data } = await axios.get(`artists/${artist_id}`);
+    return data;
   },
 
-  getArtists: async (params: PaginationType) => {
+  getArtists: async (params: PaginationType): Promise<Artist[]> => {
     const queryParams = new URLSearchParams();
     for (const param in params) if (params[param]) queryParams.append(param, String(params[param]));
     const artists = await axios.get(`artists?${queryParams.toString()}`);

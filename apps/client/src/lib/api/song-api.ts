@@ -40,7 +40,7 @@ export const songApi = {
   },
 
   unlikeSong: async (song_id: number) => {
-    const unlike = await axios.post(`songs/${song_id}/unlike`);
+    const unlike = await axios.delete(`songs/${song_id}/unlike`);
     return unlike.data;
   },
 };
