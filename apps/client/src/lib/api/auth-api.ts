@@ -18,6 +18,11 @@ export const authApi = {
     return data;
   },
 
+  logout: async () => {
+    const { data } = await axios.delete("auth/logout");
+    localStorage.setItem("access_token", data.access_token);
+  },
+
   me: async () => {
     const { data } = await axios.get("auth/me");
     return data;

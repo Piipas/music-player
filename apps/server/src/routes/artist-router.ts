@@ -8,6 +8,7 @@ const router = Router();
 router.get('/', getArtists);
 router.get('/:artist_id', getArtist);
 
-router.route('/:artist_id/follow').post(artistFollow).delete(artistUnfollow);
+router.post('/:artist_id/follow', artistFollow);
+router.delete('/:artist_id/unfollow', artistUnfollow);
 
 export default router;

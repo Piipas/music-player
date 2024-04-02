@@ -8,6 +8,7 @@ const router = Router();
 router.get('/', getPlaylists);
 router.get('/:playlist_id', getPlaylist);
 
-router.route('/:playlist_id/like').post(likePlaylist).delete(unlikePlaylist);
+router.post('/:playlist_id/like', likePlaylist);
+router.delete('/:playlist_id/unlike', unlikePlaylist);
 
 export default router;

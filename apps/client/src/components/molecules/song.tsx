@@ -1,4 +1,4 @@
-import { Heart, Play } from "lucide-react";
+import { AudioLines, Heart, Play } from "lucide-react";
 import { TableCell, TableRow } from "@/components/atoms/table";
 import { milliToTime } from "@/lib/utils";
 import { Button } from "@/components/atoms/button";
@@ -15,7 +15,7 @@ interface SongProps {
 }
 
 function Song({ song }: SongProps) {
-  const { playSong } = useMusic();
+  const { playSong, currentSong, isPlaying } = useMusic();
   const navigate = useNavigate();
 
   const { mutateAsync: likeMutate } = useMutation({
@@ -51,8 +51,17 @@ function Song({ song }: SongProps) {
   return (
     <TableRow>
       <TableCell className="font-medium flex gap-3 items-center capitalize">
-        <Button size={"icon"} variant={"ghost"} onClick={() => playSong(song)}>
-          <Play className="fill-main stroke-none" />
+        <Button
+          size={"icon"}
+          variant={"ghost"}
+          onClick={() => playSong(song)}
+          disabled={isPlaying && currentSong?.id === song.id}
+        >
+          {isPlaying && currentSong?.id === song.id ? (
+            <AudioLines className="stroke-main" />
+          ) : (
+            <Play className="fill-main stroke-none" />
+          )}
         </Button>
         <img src={"https://github.com/shadcn.png"} className="w-10 h-10 rounded-md" alt="" /> {song.name}
       </TableCell>

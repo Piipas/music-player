@@ -20,7 +20,7 @@ const useSongs = ({ songsSource, sourceId, cursor, limit }: SongsProps) => {
   }
 
   const { data, isLoading } = useQuery({
-    queryKey: [`${songsSource}_songs`],
+    queryKey: [`${songsSource}_songs`, sourceId],
     queryFn: () => songsRequest({ limit, cursor }, sourceId),
   });
 

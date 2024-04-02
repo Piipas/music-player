@@ -1,7 +1,8 @@
 import axios from "@/lib/axios";
+import { Playlist } from "@/types";
 
 export const playlistApi = {
-  getPlaylist: async (playlist_id: number) => {
+  getPlaylist: async (playlist_id: number): Promise<Playlist> => {
     const playlist = await axios.get(`playlists/${playlist_id}`);
     return playlist.data;
   },
@@ -12,7 +13,7 @@ export const playlistApi = {
   },
 
   unlikePlaylist: async (playlist_id: number) => {
-    const unlike = await axios.post(`playlists/${playlist_id}/unlike`);
+    const unlike = await axios.delete(`playlists/${playlist_id}/unlike`);
     return unlike.data;
   },
 };

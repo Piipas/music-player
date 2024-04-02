@@ -4,8 +4,10 @@ import wallpaper from "@/assets/eminem-wallpaper.jpg";
 import SongsTable from "@/components/organisms/songs-table";
 import useSongs from "@/hooks/useSongs";
 import { useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { artistApi } from "@/lib/api/artist-api";
+import { queryClient } from "@/providers";
+import { Artist as A } from "@/types";
 
 function Artist() {
   const { id } = useParams();
@@ -15,10 +17,26 @@ function Artist() {
     cursor: "0",
     limit: "10",
   });
+
   const { data: artist, isPending } = useQuery({
-    queryKey: ["artist", Number(id)],
+    queryKey: ["artist", id],
     queryFn: () => artistApi.getArtist(Number(id)),
   });
+
+  const { mutate: followMutate } = useMutation({
+    mutationFn: () => artistApi.followArtist(Number(id)),
+    onSuccess: (following) =>
+      queryClient.setQueryData(["artist", id], (data: A): A => ({ ...data, Follows: following })),
+  });
+
+  const { mutate: unfollowMutate } = useMutation({
+    mutationFn: () => artistApi.unfollowArtist(Number(id)),
+    onSuccess: () => queryClient.setQueryData(["artist", id], (data: A): A => ({ ...data, Follows: [] })),
+  });
+
+  const handleFollow = (follow: boolean) => {
+    follow ? followMutate() : unfollowMutate();
+  };
 
   return (
     isLoading ||
@@ -31,10 +49,24 @@ function Artist() {
             <div className="text-lg flex gap-2 items-center">
               Verified Artist <BadgeCheck className="fill-main" size={20} />
             </div>
-            <div className="text-5xl font-semibold">{artist.name}</div>
-            <Button size={"sm"} variant={"main"} className="mt-2 text-lg font-semibold gap-2">
-              <Heart size={18} />
-              Follow
+            <div className="text-5xl font-semibold">{artist?.name}</div>
+            <Button
+              size={"sm"}
+              variant={artist?.Follows.length ? "default" : "main"}
+              className="mt-2 text-lg font-semibold gap-2"
+              onClick={() => handleFollow(!artist?.Follows.length)}
+            >
+              {artist?.Follows.length ? (
+                <>
+                  <Heart size={18} className="text-main" />
+                  Following
+                </>
+              ) : (
+                <>
+                  <Heart size={18} />
+                  Follow
+                </>
+              )}
             </Button>
           </div>
         </div>

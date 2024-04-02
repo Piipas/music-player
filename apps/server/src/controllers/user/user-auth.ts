@@ -27,7 +27,7 @@ export const signin = async (req: Request, res: Response, next: NextFunction) =>
       .cookie('__rf__', refresh_token, {
         httpOnly: true,
         secure: true,
-        // sameSite: 'strict',
+        sameSite: 'lax',
         expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
       })
       .json({ access_token });
@@ -93,6 +93,10 @@ export const refreshToken = async (req: Request, res: Response, next: NextFuncti
   } catch (error) {
     next(error);
   }
+};
+
+export const logout = async (req: Request, res: Response, next: NextFunction) => {
+  res.clearCookie('__rf__').status(200).json({ message: 'Logged out successfully!' });
 };
 
 export const me = async (req: Request, res: Response, next: NextFunction) => {

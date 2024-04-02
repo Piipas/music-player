@@ -5,6 +5,7 @@ export const numberRegex = new RegExp(/[0-9]*/);
 export const paginationQueryParamsSchema = z.object({
     limit: z.string().regex(numberRegex),
     cursor: z.string().regex(numberRegex),
+    query: z.string().min(1).max(255).optional(),
 });
 
 export const item_id = (...items_ids: string[]) => {

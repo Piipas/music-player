@@ -1,9 +1,9 @@
 import axios from "@/lib/axios";
-import { Artist } from "mp-prisma";
+import { Artist } from "@/types";
 import { PaginationType } from "mp-validation";
 
 export const artistApi = {
-  getArtist: async (artist_id: number) => {
+  getArtist: async (artist_id: number): Promise<Artist> => {
     const { data } = await axios.get(`artists/${artist_id}`);
     return data;
   },
@@ -21,7 +21,7 @@ export const artistApi = {
   },
 
   unfollowArtist: async (artist_id: number) => {
-    const unfollow = await axios.post(`artists/${artist_id}/unfollow`);
+    const unfollow = await axios.delete(`artists/${artist_id}/unfollow`);
     return unfollow.data;
   },
 };

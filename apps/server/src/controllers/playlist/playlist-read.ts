@@ -3,11 +3,12 @@ import { Request, Response, NextFunction } from 'express';
 
 export const getPlaylist = async (req: Request, res: Response, next: NextFunction) => {
   const { playlist_id } = req.params;
+  const { id } = req.user;
 
   try {
     const playlist = await prismaClient.playlist.findFirstOrThrow({
       where: { id: parseInt(playlist_id) },
-      include: { Songs: { select: { Song: true } } },
+      include: { Likes: { where: { user_id: id } }, User: { select: { username: true } } },
     });
 
     res.status(200).json(playlist);

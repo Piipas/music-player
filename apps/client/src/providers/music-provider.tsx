@@ -37,6 +37,7 @@ export const MusicProvider = ({ children }: ProvidersProps) => {
 
   const playSong = async (song: Prisma.SongGetPayload<{ include: { Artist: true } }>) => {
     setCurrentSong(song);
+    setIsPlaying(false);
   };
 
   return (
