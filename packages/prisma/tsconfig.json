@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "lib": ["ESNext"],
+        "module": "ESNext",
+        "outDir": "./dist",
+        "target": "ESNext",
+        "moduleResolution": "Bundler",
+        "moduleDetection": "force",
+        "strict": true,
+        "downlevelIteration": true,
+        "skipLibCheck": true,
+        "allowSyntheticDefaultImports": true,
+        "forceConsistentCasingInFileNames": true,
+        "declaration": true
+    }
+}

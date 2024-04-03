@@ -1,0 +1,20 @@
+import { prismaClient } from 'mp-prisma';
+import { Request, Response, NextFunction } from 'express';
+
+export const likeSong = async (req: Request, res: Response, next: NextFunction) => {
+  const { song_id } = req.params;
+  const { id } = req.user;
+
+  try {
+    const like = await prismaClient.songsLikes.create({
+      data: {
+        song_id: parseInt(song_id),
+        user_id: id,
+      },
+    });
+
+    res.status(201).json(like);
+  } catch (error) {
+    next(error);
+  }
+};
