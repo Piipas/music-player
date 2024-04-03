@@ -2,21 +2,19 @@ import { Pause, Play, SkipBack, SkipForward, Volume, Volume1, Volume2 } from "lu
 import { Button } from "@/components/atoms/button";
 import { Slider } from "@/components/atoms/slider";
 import { useMusic } from "@/providers/music-provider";
-import useSong from "@/hooks/useSong";
 import { useState } from "react";
 
 function Player() {
-  const { currentSong, isPlaying, play, pause } = useMusic();
-  const { audioRef } = useSong(currentSong ? currentSong.id : Number(localStorage.getItem("current-song")));
-  const [volume, setVolume] = useState<number>(audioRef.current.volume * 100);
+  const { currentSong, isPlaying, play, pause, audio } = useMusic();
+  const [volume, setVolume] = useState<number>(audio.volume * 100);
 
   const handleVolume = (value: number) => {
-    audioRef.current.volume = value / 100;
+    audio.volume = value / 100;
     setVolume(value);
   };
 
   const handleTime = (value: number) => {
-    audioRef.current.currentTime = value;
+    audio.currentTime = value;
   };
 
   return (
@@ -24,7 +22,7 @@ function Player() {
       <div className="absolute top-0 left-0 -translate-y-1/2 w-full">
         <Slider
           defaultValue={[0]}
-          max={Math.ceil(audioRef.current.duration)}
+          max={Math.ceil(audio.duration)}
           onValueChange={(value) => handleTime(value[0])}
           step={1}
           className="w-full"
@@ -43,11 +41,7 @@ function Player() {
         <Button size={"icon"} variant={"ghost"} className="rounded-full">
           <SkipBack />
         </Button>
-        <Button
-          size={"icon"}
-          className="rounded-full"
-          onClick={isPlaying ? () => pause(audioRef.current) : () => play(audioRef.current)}
-        >
+        <Button size={"icon"} className="rounded-full" onClick={isPlaying ? pause : play}>
           {isPlaying ? <Pause /> : <Play />}
         </Button>
         <Button size={"icon"} variant={"ghost"} className="rounded-full">

@@ -57,7 +57,7 @@ function LeftSidebar() {
         </div>
         <ul className="navlinks space-y-3">
           {navlinks.map(({ label, to, icon }) => (
-            <li>
+            <li key={label}>
               <NavLink to={to} className={"text-lg flex gap-4 group"}>
                 {icon}
                 {<span className={"group-[.active]:text-main hover:text-main transition-colors"}>{label}</span>}

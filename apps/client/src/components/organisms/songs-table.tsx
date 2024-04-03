@@ -19,7 +19,7 @@ function SongsTable({ songs }: { songs: Prisma.SongGetPayload<{ include: { Artis
         </TableHeader>
         <TableBody>
           {songs.map((song) => (
-            <Song song={song} />
+            <Song song={song} key={song.id} />
           ))}
         </TableBody>
       </Table>

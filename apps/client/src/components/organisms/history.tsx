@@ -18,8 +18,8 @@ function History() {
       </div>
       <ul className="p-3 flex gap-y-3 flex-wrap">
         {isLoading ||
-          history.map(({ Song: { name, Artist, Likes } }: HistorySongType) => (
-            <li className="flex gap-4 items-center w-full pe-2" key={name}>
+          history.map(({ Song: { id, name, Artist, Likes } }: HistorySongType) => (
+            <li className="flex gap-4 items-center w-full pe-2" key={id}>
               <div className="w-12 h-12 overflow-hidden rounded-md">
                 <img src={"https://github.com/shadcn.png"} alt={`${name} avatar`} />
               </div>

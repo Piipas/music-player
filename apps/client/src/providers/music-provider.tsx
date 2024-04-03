@@ -1,47 +1,63 @@
-import { createContext, useContext, useState } from "react";
-import { Prisma } from "mp-prisma";
+import { createContext, useContext, useEffect, useState } from "react";
 import { ProvidersProps } from ".";
+import { Song } from "@/types";
+import useSong from "@/hooks/useSong";
 
 interface MusicContextType {
-  currentSong: Prisma.SongGetPayload<{ include: { Artist: true } }> | null | undefined;
+  currentSong: Song | null | undefined;
   isPlaying: boolean;
-  playSong: (song: Prisma.SongGetPayload<{ include: { Artist: true } }>) => void;
-  play: (audio: HTMLAudioElement) => void;
-  pause: (audio: HTMLAudioElement) => void;
+  audio: HTMLAudioElement;
+  queue: Song[];
+  playSong: (song: Song) => void;
+  play: () => void;
+  pause: () => void;
 }
 
 const defaultValue = {
   currentSong: null,
   isPlaying: false,
-  audio: null,
-  playSong: () => {},
-  play: () => {},
-  pause: () => {},
+  audio: document.createElement("audio"),
+  queue: [],
+  playSong: () => null,
+  play: () => null,
+  pause: () => null,
 };
 
 const MusicContext = createContext<MusicContextType>(defaultValue);
 
 export const MusicProvider = ({ children }: ProvidersProps) => {
-  const [currentSong, setCurrentSong] = useState<Prisma.SongGetPayload<{ include: { Artist: true } }> | null>();
+  const [currentSong, setCurrentSong] = useState<Song | null>();
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [queue, setQueue] = useState<Song[]>([]);
 
-  const play = (audio: HTMLAudioElement) => {
-    audio.play();
+  const { isLoading, audio } = useSong(currentSong ? currentSong.id : Number(localStorage.getItem("current-song")));
+
+  const play = async () => {
+    audio?.play();
     setIsPlaying(true);
+    console.log("play");
   };
 
-  const pause = (audio: HTMLAudioElement) => {
-    audio.pause();
+  const pause = async () => {
+    audio?.pause();
     setIsPlaying(false);
+    console.log("pause");
   };
 
-  const playSong = async (song: Prisma.SongGetPayload<{ include: { Artist: true } }>) => {
+  const playSong = async (song: Song) => {
+    // console.log(audio);
+    pause();
     setCurrentSong(song);
-    setIsPlaying(false);
   };
+
+  // const next = () => {
+  //   pause();
+  // };
 
   return (
-    <MusicContext.Provider value={{ currentSong, isPlaying, play, playSong, pause }}>{children}</MusicContext.Provider>
+    <MusicContext.Provider value={{ currentSong, isPlaying, audio, queue, play, playSong, pause }}>
+      {children}
+    </MusicContext.Provider>
   );
 };
 

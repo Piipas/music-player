@@ -38,6 +38,7 @@ const Home = () => {
               <div
                 className="w-full cursor-pointer col-span-2 p-2 rounded-lg hover:bg-slate-900 transition-colors"
                 onClick={() => navigate(`/artist/${id}`)}
+                key={id}
               >
                 {/* <img src={`http://localhost:4001/data/artists/avatars/${avatar}`} className="rounded-lg" alt="" /> */}
                 <IKImage path={`/artists/avatars/${avatar}`} className="rounded-lg" width={200} height={200} />

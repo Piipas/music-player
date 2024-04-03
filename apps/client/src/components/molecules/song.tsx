@@ -49,13 +49,14 @@ function Song({ song }: SongProps) {
   const handleLike = (like: boolean) => (like ? likeMutate() : unlikeMutate());
 
   return (
-    <TableRow>
+    <TableRow className="group">
       <TableCell className="font-medium flex gap-3 items-center capitalize">
         <Button
           size={"icon"}
           variant={"ghost"}
           onClick={() => playSong(song)}
           disabled={isPlaying && currentSong?.id === song.id}
+          className="opacity-0 group-hover:opacity-100 transition-opacity"
         >
           {isPlaying && currentSong?.id === song.id ? (
             <AudioLines className="stroke-main" />

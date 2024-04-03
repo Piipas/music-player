@@ -29,7 +29,7 @@ export const streamSong = async (req: Request, res: Response, next: NextFunction
       select: { path: true },
     });
 
-    const file = await readFile(path.join(__dirname, `../../../data/songs/${song.path}`));
+    const file = await readFile(path.join(__dirname, `../../../data/audio/${song.path}`));
 
     res
       .setHeader('Content-Disposition', `attachment; filename=${song.path}`)
