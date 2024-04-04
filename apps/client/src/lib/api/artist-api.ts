@@ -24,4 +24,9 @@ export const artistApi = {
     const unfollow = await axios.delete(`artists/${artist_id}/unfollow`);
     return unfollow.data;
   },
+
+  switchArtist: async (artist_info: FormData) => {
+    const { data } = await axios.post("/artists/switch", artist_info);
+    return data;
+  },
 };

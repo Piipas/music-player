@@ -6,9 +6,9 @@ module.exports = {
   theme: {
     container: {
       center: true,
-      padding: "1rem",
+      // padding: "1rem",
       screens: {
-        "2xl": "1400px",
+        "3xl": "1920px",
       },
     },
     extend: {
@@ -68,6 +68,9 @@ module.exports = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+      },
+      screens: {
+        "3xl": "1920px",
       },
     },
   },

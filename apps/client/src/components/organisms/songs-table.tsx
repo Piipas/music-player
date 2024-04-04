@@ -1,4 +1,4 @@
-import { Table, TableHeader, TableRow, TableHead, TableBody } from "@/components/atoms/table";
+import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/atoms/table";
 import { Clock } from "lucide-react";
 import Song from "@/components/molecules/song";
 import { Song as S } from "@/types";
@@ -18,9 +18,15 @@ function SongsTable({ songs }: { songs: S[] }) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {songs.map((song) => (
-            <Song song={song} key={song.id} />
-          ))}
+          {songs.length ? (
+            songs.map((song) => <Song song={song} key={song.id} />)
+          ) : (
+            <TableRow>
+              <TableCell colSpan={4} className="text-center">
+                No songs to show!
+              </TableCell>
+            </TableRow>
+          )}
         </TableBody>
       </Table>
     </div>

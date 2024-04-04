@@ -1,5 +1,5 @@
 import axios from "@/lib/axios";
-import { PaginationType } from "mp-validation";
+import { NewSongType, PaginationType } from "mp-validation";
 
 export const songApi = {
   getSong: async (song_id: number) => {
@@ -44,7 +44,7 @@ export const songApi = {
     return data;
   },
 
-  createSong: async (songInfo: any) => {
+  createSong: async (songInfo: FormData) => {
     const { data } = await axios.post("songs/", songInfo);
     return data;
   },

@@ -2,18 +2,20 @@ import { DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/c
 import { FormField, FormItem, FormControl, FormMessage, Form } from "@/components/atoms/form";
 import { Input } from "@/components/atoms/input";
 import { useForm } from "react-hook-form";
-import { Button } from "../atoms/button";
+import { Button } from "@/components/atoms/button";
 import { useDropzone } from "react-dropzone";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { useMutation } from "@tanstack/react-query";
-import { songApi } from "@/lib/api/song-api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { newSongBodySchema, NewSongType } from "mp-validation";
 import { useState } from "react";
+import { artistApi } from "@/lib/api/artist-api";
+import { useNavigate } from "react-router-dom";
 
-function UploadSong() {
-  const [audio, setAudio] = useState<File | null>(null);
-  const [image, setImage] = useState<File | null>(null);
+function SwitchArtist() {
+  const navigate = useNavigate();
+  const [avatar, setAvatar] = useState<File | null>(null);
+  const [cover, setCover] = useState<File | null>(null);
 
   const songForm = useForm({
     resolver: zodResolver(newSongBodySchema),
@@ -23,36 +25,38 @@ function UploadSong() {
   });
 
   const { mutate: songMutate } = useMutation({
-    mutationFn: (songInfo: FormData) => songApi.createSong(songInfo),
-    onSuccess: () => {},
+    mutationFn: (artistInfo: FormData) => artistApi.switchArtist(artistInfo),
+    onSuccess: (data) => {
+      navigate(`/artist/${data.id}`);
+    },
   });
 
-  const onSubmit = (songInfo: NewSongType) => {
+  const onSubmit = (artistInfo: NewSongType) => {
     const formdata = new FormData();
 
-    formdata.append("name", songInfo.name);
-    if (audio && image) formdata.append("audio", audio), formdata.append("image", image);
+    formdata.append("name", artistInfo.name);
+    if (avatar && cover) formdata.append("avatar", avatar), formdata.append("cover", cover);
 
     songMutate(formdata);
   };
 
   const {
-    getRootProps: audioRootProps,
-    getInputProps: audioInputProps,
-    isDragActive: isAudioActive,
+    getRootProps: avatarRootProps,
+    getInputProps: avatarInputProps,
+    isDragActive: isAvatarActive,
   } = useDropzone({
-    onDrop: (acceptedFiles) => setAudio(acceptedFiles[0]),
-    accept: { "audio/*": [".mp3"] },
+    onDrop: (acceptedFiles) => setAvatar(acceptedFiles[0]),
+    accept: { "image/*": [".png", ".jpg", ".jpeg", ".webp"] },
     maxFiles: 1,
     maxSize: 1e7,
   });
 
   const {
-    getRootProps: imageRootProps,
-    getInputProps: imageInputProps,
-    isDragActive: isImageActive,
+    getRootProps: coverRootProps,
+    getInputProps: coverInputProps,
+    isDragActive: isCoverActive,
   } = useDropzone({
-    onDrop: (acceptedFiles) => setImage(acceptedFiles[0]),
+    onDrop: (acceptedFiles) => setCover(acceptedFiles[0]),
     accept: { "image/*": [".png", ".jpg", ".jpeg", ".webp"] },
     maxFiles: 1,
     maxSize: 1e7,
@@ -61,31 +65,31 @@ function UploadSong() {
   return (
     <DialogContent>
       <DialogHeader>
-        <DialogTitle className="text-main">Upload new song.</DialogTitle>
-        <DialogDescription>Upload new song and let others enjoy your music.</DialogDescription>
+        <DialogTitle className="text-main">Be an artist.</DialogTitle>
+        <DialogDescription>Be an artist and upload illimited songs.</DialogDescription>
         <Form {...songForm}>
           <form onSubmit={songForm.handleSubmit(onSubmit)}>
             <div className="space-y-4">
               <div
-                {...audioRootProps()}
+                {...avatarRootProps()}
                 className="h-[200px] border border-input border-dashed rounded-lg flex items-center justify-center cursor-pointer"
               >
-                <Input name="audio" {...audioInputProps({ multiple: false })} />
+                <Input name="avatar" {...avatarInputProps({ multiple: false })} />
                 <p>
-                  {isAudioActive && "Drop it here ..."}
-                  {!isAudioActive && !audio && "Drag your song audio file ..."}
-                  {audio ? audio.name : ""}
+                  {isAvatarActive && "Drop it here ..."}
+                  {!isAvatarActive && !avatar && "Drag your avatar file ..."}
+                  {avatar ? avatar.name : ""}
                 </p>
               </div>
               <div
-                {...imageRootProps()}
+                {...coverRootProps()}
                 className="h-[200px] border border-input border-dashed rounded-lg flex items-center justify-center cursor-pointer"
               >
-                <Input name="image" {...imageInputProps({ multiple: false, type: "image" })} />
+                <Input name="cover" {...coverInputProps({ multiple: false, type: "cover" })} />
                 <p>
-                  {isImageActive && "Drop it here ..."}
-                  {!isImageActive && !image && "Drag your song image file ..."}
-                  {image ? image.name : ""}
+                  {isCoverActive && "Drop it here ..."}
+                  {!isCoverActive && !cover && "Drag your cover file ..."}
+                  {cover ? cover.name : ""}
                 </p>
               </div>
               <FormField
@@ -94,7 +98,7 @@ function UploadSong() {
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Input placeholder="Song name - eg: Stakatak sbakatak" {...field} />
+                      <Input placeholder="Artist name - eg: Cheb laarbi" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -118,4 +122,4 @@ function UploadSong() {
   );
 }
 
-export default UploadSong;
+export default SwitchArtist;

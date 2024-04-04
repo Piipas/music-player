@@ -22,23 +22,32 @@ export const likeSong = async (req: Request, res: Response, next: NextFunction) 
 
 export const createSong = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.user;
-  const files = req.files;
+  const files = req.files as { [key: string]: Express.Multer.File[] };
   const { name } = req.body;
 
-  const image = files['image'][0];
-  const audio = files['audio'][0];
+  if (!files) return res.status(400).json({ message: 'Song Audio/Image are required!' });
 
   try {
+    const image = files['image'][0];
+    const audio = files['audio'][0];
+
+    const user = await prismaClient.user.findUnique({
+      where: { id },
+      select: { Artist: { select: { id: true } } },
+    });
+
+    if (!user?.Artist) return res.status(400).json({ message: 'You are not an artist!' });
+
     const uploadedImage = await imagekit.upload({
       file: image.buffer,
-      fileName: image.originalname,
+      fileName: `${Date.now()}_${name}.${image.originalname.at(-1)}`,
       useUniqueFileName: false,
       folder: '/music-player/songs/images/',
     });
 
     const uploadedAudio = await imagekit.upload({
       file: audio.buffer,
-      fileName: `${Date.now()}_${name}.${image.originalname.at(-1)}`,
+      fileName: `${Date.now()}_${name}.${audio.originalname.at(-1)}`,
       useUniqueFileName: false,
       folder: '/music-player/songs/audio/',
     });
@@ -49,7 +58,7 @@ export const createSong = async (req: Request, res: Response, next: NextFunction
         image: uploadedImage.filePath,
         path: uploadedAudio.url,
         duration: 123456,
-        artist_id: 1,
+        artist_id: user?.Artist?.id,
       },
     });
 

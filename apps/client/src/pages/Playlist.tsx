@@ -1,7 +1,6 @@
 import { Button } from "@/components/atoms/button";
 import SongsTable from "@/components/organisms/songs-table";
 import { Heart } from "lucide-react";
-import wallpaper from "@/assets/eminem-wallpaper.jpg";
 import useSongs from "@/hooks/useSongs";
 import { useParams } from "react-router-dom";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -42,7 +41,7 @@ function Playlist() {
     isPending || (
       <>
         <div className="w-full rounded-2xl border-2 border-white h-48 p-6 flex items-center relative overflow-hidden">
-          <img src={wallpaper} className="w-full absolute top-0 left-0 opacity-30" alt="" />
+          {/* <img src={wallpaper} className="w-full absolute top-0 left-0 opacity-30" alt="" /> */}
           <div className="z-10">
             {/* <div className="text-sm">Artist</div> */}
             {/* <div className="text-5xl font-semibold">{playlist.name}</div> */}

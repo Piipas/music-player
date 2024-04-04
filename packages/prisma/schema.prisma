@@ -21,7 +21,7 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  Artist         Artist[]
+  Artist         Artist?
   Playlist       Playlist[]
   History        History[]
   SongsLikes     SongsLikes[]
@@ -54,11 +54,12 @@ model Artist {
   id        Int      @id @default(autoincrement())
   name      String
   avatar    String
-  user_id   Int
+  cover     String
+  user_id   Int?     @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  User    User             @relation(fields: [user_id], references: [id])
+  User    User?            @relation(fields: [user_id], references: [id])
   Songs   Song[]
   Follows ArtistsFollows[]
 
