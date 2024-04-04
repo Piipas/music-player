@@ -3,6 +3,7 @@ import { Button } from "@/components/atoms/button";
 import { useQuery } from "@tanstack/react-query";
 import { songApi } from "@/lib/api/song-api";
 import { Prisma } from "mp-prisma";
+import { IKImage } from "imagekitio-react";
 
 type HistorySongType = {
   Song: Prisma.SongGetPayload<{ include: { Artist: true; Likes: true } }>;
@@ -18,10 +19,10 @@ function History() {
       </div>
       <ul className="p-3 flex gap-y-3 flex-wrap">
         {isLoading ||
-          history.map(({ Song: { id, name, Artist, Likes } }: HistorySongType) => (
+          history.map(({ Song: { id, name, image, Artist, Likes } }: HistorySongType) => (
             <li className="flex gap-4 items-center w-full pe-2" key={id}>
               <div className="w-12 h-12 overflow-hidden rounded-md">
-                <img src={"https://github.com/shadcn.png"} alt={`${name} avatar`} />
+                <IKImage path={image} alt={`${name} avatar`} />
               </div>
               <div className="-space-y-1 flex-grow">
                 <div className="font-semibold text-sm">{name}</div>

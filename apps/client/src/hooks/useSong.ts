@@ -1,6 +1,6 @@
 import { songApi } from "@/lib/api/song-api";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 const useSong = (song_id: number) => {
   const audioRef = useRef<HTMLAudioElement>(document.createElement("audio"));
@@ -11,9 +11,11 @@ const useSong = (song_id: number) => {
 
   useEffect(() => {
     const audioElement = audioRef.current;
+    console.log("useSong rendered", isLoading, isError, data);
 
     if (!isLoading && !isError && data) {
       audioElement.src = "";
+      audioElement.currentTime = 0;
       const blob = new Blob([data], { type: "audio/mp3" });
       const blobUrl = URL.createObjectURL(blob);
 
@@ -21,13 +23,13 @@ const useSong = (song_id: number) => {
       audioElement.volume = Number(localStorage.getItem("volume")) / 100 || 0.025;
       audioElement.currentTime = 0;
       audioElement.setAttribute("controls", "false");
-      // audioElement.play();
+      audioElement.autoplay = true;
 
-      console.log("useSong", audioElement);
+      console.log("play", audioElement);
 
       localStorage.setItem("current-song", String(song_id));
     }
-  }, [data]);
+  }, [song_id, isLoading]);
 
   return { isLoading, audio: audioRef.current };
 };

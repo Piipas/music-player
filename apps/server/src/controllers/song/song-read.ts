@@ -1,6 +1,7 @@
 import { prismaClient } from 'mp-prisma';
 import { Request, Response, NextFunction } from 'express';
-import path from 'path';
+// import path from 'path';
+import axios from 'axios';
 import util from 'util';
 import fs from 'fs';
 
@@ -21,18 +22,20 @@ export const getSong = async (req: Request, res: Response, next: NextFunction) =
 
 export const streamSong = async (req: Request, res: Response, next: NextFunction) => {
   const { song_id } = req.params;
-  const readFile = util.promisify(fs.readFile);
+  const { id } = req.user;
 
   try {
     const song = await prismaClient.song.findFirstOrThrow({
       where: { id: parseInt(song_id) },
-      select: { path: true },
+      select: { path: true, name: true, id: true },
     });
 
-    const file = await readFile(path.join(__dirname, `../../../data/audio/${song.path}`));
+    const { data: file } = await axios.get(song.path, { responseType: 'arraybuffer' });
+
+    await prismaClient.history.create({ data: { song_id: song.id, user_id: id } });
 
     res
-      .setHeader('Content-Disposition', `attachment; filename=${song.path}`)
+      .setHeader('Content-Disposition', `attachment; filename=${song.name}`)
       .setHeader('Content-Type', 'audio/mp3')
       .write(file, 'binary');
     res.end();

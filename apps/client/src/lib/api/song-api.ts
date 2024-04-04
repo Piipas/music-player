@@ -25,8 +25,8 @@ export const songApi = {
   getArtistSong: async (params: PaginationType, artist_id: number) => {
     const queryParams = new URLSearchParams();
     for (const param in params) if (params[param]) queryParams.append(param, String(params[param]));
-    const songs = await axios.get(`songs/artist/${artist_id}?${queryParams.toString()}`);
-    return songs.data;
+    const { data } = await axios.get(`songs/artist/${artist_id}?${queryParams.toString()}`);
+    return data;
   },
 
   getHistory: async () => {
@@ -35,12 +35,17 @@ export const songApi = {
   },
 
   likeSong: async (song_id: number) => {
-    const like = await axios.post(`songs/${song_id}/like`);
-    return like.data;
+    const { data } = await axios.post(`songs/${song_id}/like`);
+    return data;
   },
 
   unlikeSong: async (song_id: number) => {
-    const unlike = await axios.delete(`songs/${song_id}/unlike`);
-    return unlike.data;
+    const { data } = await axios.delete(`songs/${song_id}/unlike`);
+    return data;
+  },
+
+  createSong: async (songInfo: any) => {
+    const { data } = await axios.post("songs/", songInfo);
+    return data;
   },
 };

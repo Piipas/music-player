@@ -5,8 +5,8 @@ import { useMusic } from "@/providers/music-provider";
 import { useState } from "react";
 
 function Player() {
-  const { currentSong, isPlaying, play, pause, audio } = useMusic();
-  const [volume, setVolume] = useState<number>(audio.volume * 100);
+  const { currentSong, isPlaying, currentTime, play, pause, audio } = useMusic();
+  const [volume, setVolume] = useState<number>(audio ? audio.volume * 100 : 50);
 
   const handleVolume = (value: number) => {
     audio.volume = value / 100;
@@ -17,13 +17,18 @@ function Player() {
     audio.currentTime = value;
   };
 
+  const handlePlay = () => {
+    isPlaying ? pause() : play();
+  };
+
   return (
     <div className="h-20 border-t border-gray-600 w-full py-2 px-4 grid grid-cols-12 relative z-50 bg-background">
       <div className="absolute top-0 left-0 -translate-y-1/2 w-full">
         <Slider
           defaultValue={[0]}
-          max={Math.ceil(audio.duration)}
+          max={Math.floor(audio.duration)}
           onValueChange={(value) => handleTime(value[0])}
+          value={[currentTime]}
           step={1}
           className="w-full"
         />
@@ -41,7 +46,7 @@ function Player() {
         <Button size={"icon"} variant={"ghost"} className="rounded-full">
           <SkipBack />
         </Button>
-        <Button size={"icon"} className="rounded-full" onClick={isPlaying ? pause : play}>
+        <Button size={"icon"} className="rounded-full" onClick={handlePlay}>
           {isPlaying ? <Pause /> : <Play />}
         </Button>
         <Button size={"icon"} variant={"ghost"} className="rounded-full">

@@ -9,6 +9,7 @@ import { songApi } from "@/lib/api/song-api";
 import { queryClient } from "@/providers";
 import { History, Song as S } from "@/types";
 import { SongsLikes } from "mp-prisma";
+import { IKImage } from "imagekitio-react";
 
 interface SongProps {
   song: S;
@@ -17,9 +18,10 @@ interface SongProps {
 function Song({ song }: SongProps) {
   const { playSong, currentSong, isPlaying } = useMusic();
   const navigate = useNavigate();
+  console.log(song.image);
 
   const { mutateAsync: likeMutate } = useMutation({
-    mutationFn: async () => await songApi.likeSong(song.id),
+    mutationFn: () => songApi.likeSong(song.id),
     onSuccess: (data: SongsLikes) => {
       song.Likes.push(data);
       queryClient.setQueryData(["history"], (history: History) =>
@@ -33,7 +35,7 @@ function Song({ song }: SongProps) {
   });
 
   const { mutateAsync: unlikeMutate } = useMutation({
-    mutationFn: async () => await songApi.unlikeSong(song.id),
+    mutationFn: () => songApi.unlikeSong(song.id),
     onSuccess: () => {
       song.Likes = [];
       queryClient.setQueryData(["history"], (history: History) =>
@@ -64,7 +66,8 @@ function Song({ song }: SongProps) {
             <Play className="fill-main stroke-none" />
           )}
         </Button>
-        <img src={"https://github.com/shadcn.png"} className="w-10 h-10 rounded-md" alt="" /> {song.name}
+        <IKImage path={song.image} className="w-10 h-10 rounded-md" alt="" />
+        {song.name}
       </TableCell>
       <TableCell>
         <Button variant={"link"} className="p-0" onClick={() => navigate(`/artist/${song.Artist.id}`)}>

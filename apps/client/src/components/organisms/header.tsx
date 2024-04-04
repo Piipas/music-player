@@ -8,12 +8,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/atoms/dropdown-menu";
-import { LogOut } from "lucide-react";
+import { LogOut, Plus } from "lucide-react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { authApi } from "@/lib/api/auth-api";
 import { useNavigate } from "react-router-dom";
 import { artistApi } from "@/lib/api/artist-api";
 import { useEffect, useState } from "react";
+import { Button } from "@/components/atoms/button";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../atoms/dialog";
+import UploadSong from "./upload-song";
 
 function Header() {
   const navigate = useNavigate();
@@ -21,7 +24,8 @@ function Header() {
   const [debouncedInputValue, setDebouncedInputValue] = useState("");
 
   const { mutate: logoutMutate } = useMutation({ mutationFn: authApi.logout, onSuccess: () => navigate("/login") });
-  const { data: artists, isLoading } = useQuery({
+  // const { data: artists, isLoading } =
+  useQuery({
     queryKey: ["artists_search", debouncedInputValue],
     queryFn: () => artistApi.getArtists({ limit: "6", cursor: "0", query: debouncedInputValue }),
   });
@@ -48,6 +52,14 @@ function Header() {
         <Input placeholder="Who's your favourite artist?" onChange={handleSearch} />
         <div className="w-full pt-2"></div>
       </div>
+      <Dialog>
+        <DialogTrigger>
+          <Button variant={"main"} className="gap-2">
+            <Plus size={18} /> New Song
+          </Button>
+        </DialogTrigger>
+        <UploadSong />
+      </Dialog>
       <DropdownMenu>
         <DropdownMenuTrigger>
           <Avatar className="cursor-pointer">

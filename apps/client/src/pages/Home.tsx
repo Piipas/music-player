@@ -41,7 +41,7 @@ const Home = () => {
                 key={id}
               >
                 {/* <img src={`http://localhost:4001/data/artists/avatars/${avatar}`} className="rounded-lg" alt="" /> */}
-                <IKImage path={`/artists/avatars/${avatar}`} className="rounded-lg" width={200} height={200} />
+                <IKImage path={avatar} className="rounded-lg" width={200} height={200} />
                 <div className="text-base pt-2 px-1 font-semibold opacity-70">{name}</div>
               </div>
             ))}

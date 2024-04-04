@@ -1,9 +1,9 @@
 import { Table, TableHeader, TableRow, TableHead, TableBody } from "@/components/atoms/table";
 import { Clock } from "lucide-react";
-import { Prisma } from "mp-prisma";
 import Song from "@/components/molecules/song";
+import { Song as S } from "@/types";
 
-function SongsTable({ songs }: { songs: Prisma.SongGetPayload<{ include: { Artist: true; Likes: true } }>[] }) {
+function SongsTable({ songs }: { songs: S[] }) {
   return (
     <div className="w-full pt-4">
       <Table>

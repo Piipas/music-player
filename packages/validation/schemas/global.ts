@@ -1,4 +1,4 @@
-import { number, z } from "zod";
+import { z } from "zod";
 
 export const numberRegex = new RegExp(/[0-9]*/);
 
