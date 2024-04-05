@@ -3,7 +3,7 @@ import { authApi } from "./api/auth-api";
 
 const authRoutes = ["auth/login", "auth/register", "auth/refresh"];
 const axios = ax.create({
-  baseURL: "http://localhost:4001/",
+  baseURL: import.meta.env.VITE_API_URL,
   withCredentials: true,
   headers: {
     Accept: "Content-Type",
