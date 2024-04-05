@@ -1,22 +1,25 @@
-import { Pause, Play, SkipBack, SkipForward, Volume, Volume1, Volume2 } from "lucide-react";
+import { Pause, Play, SkipBack, SkipForward, Volume1, Volume2, VolumeX } from "lucide-react";
 import { Button } from "@/components/atoms/button";
 import { Slider } from "@/components/atoms/slider";
 import { useMusic } from "@/providers/music-provider";
-import useSong from "@/hooks/useSong";
 import { useState } from "react";
+import { IKImage } from "imagekitio-react";
 
 function Player() {
-  const { currentSong, isPlaying, play, pause } = useMusic();
-  const { audioRef } = useSong(currentSong ? currentSong.id : Number(localStorage.getItem("current-song")));
-  const [volume, setVolume] = useState<number>(audioRef.current.volume * 100);
+  const { currentSong, isPlaying, currentTime, play, pause, audio, next, previous } = useMusic();
+  const [volume, setVolume] = useState<number>(audio ? audio.volume * 100 : 50);
 
   const handleVolume = (value: number) => {
-    audioRef.current.volume = value / 100;
+    audio.volume = value / 100;
     setVolume(value);
   };
 
   const handleTime = (value: number) => {
-    audioRef.current.currentTime = value;
+    audio.currentTime = value;
+  };
+
+  const handlePlay = () => {
+    isPlaying ? pause() : play();
   };
 
   return (
@@ -24,39 +27,38 @@ function Player() {
       <div className="absolute top-0 left-0 -translate-y-1/2 w-full">
         <Slider
           defaultValue={[0]}
-          max={Math.ceil(audioRef.current.duration)}
+          max={Math.floor(audio.duration)}
           onValueChange={(value) => handleTime(value[0])}
+          value={[currentTime]}
           step={1}
           className="w-full"
         />
       </div>
       <div className="h-ful flex items-center col-span-4">
         <div className="w-16 rounded-md overflow-hidden">
-          <img src="https://github.com/shadcn.png" alt="artist" />
+          <IKImage path={currentSong ? currentSong.image : "https://github.com/shadcn.png"} />
         </div>
         <div className="ps-2 -space-y-1">
-          <div className="text-lg font-semibold">{currentSong ? currentSong.name : "Rap God"}</div>
-          <div className="text-sm opacity-50">{currentSong ? currentSong.Artist.name : "Eminem"}</div>
+          <div className="text-lg font-semibold capitalize">{currentSong ? currentSong.name : "Rap God"}</div>
+          <div className="text-sm opacity-50 capitalize">{currentSong ? currentSong.Artist.name : "Eminem"}</div>
         </div>
       </div>
       <div className="flex gap-3 items-center col-span-4 justify-center">
-        <Button size={"icon"} variant={"ghost"} className="rounded-full">
+        <Button size={"icon"} variant={"ghost"} className="rounded-full" onClick={previous}>
           <SkipBack />
         </Button>
-        <Button
-          size={"icon"}
-          className="rounded-full"
-          onClick={isPlaying ? () => pause(audioRef.current) : () => play(audioRef.current)}
-        >
+        <Button size={"icon"} className="rounded-full" onClick={handlePlay}>
           {isPlaying ? <Pause /> : <Play />}
         </Button>
-        <Button size={"icon"} variant={"ghost"} className="rounded-full">
+        <Button size={"icon"} variant={"ghost"} className="rounded-full" onClick={next}>
           <SkipForward />
         </Button>
       </div>
       <div className="flex gap-3 col-span-4 justify-end">
         <div className="w-40 flex h-full items-center gap-3">
-          {volume > 30 ? <Volume2 /> : <Volume1 />}
+          {volume <= 0 && <VolumeX />}
+          {volume > 0 && volume <= 30 && <Volume1 />}
+          {volume > 30 && <Volume2 />}
           <Slider
             defaultValue={[Number(localStorage.getItem("volume")) || 50]}
             max={100}

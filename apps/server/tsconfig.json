@@ -3,8 +3,10 @@
     "lib": ["ESNext"],
     "module": "ESNext",
     "target": "ESNext",
-    "moduleResolution": "bundler",
+    "moduleResolution": "Bundler",
     "moduleDetection": "force",
+    "outDir": "./dist",
+    "composite": true,
     "allowImportingTsExtensions": true,
     "noEmit": true,
     "strict": true,
@@ -13,12 +15,18 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
-    "outDir": "./dist",
     "paths": {
       "@/*": ["./src/*"]
     }
   },
   "include": ["./types/**/*.ts", "./src/**/*.ts"],
-  // "include": ["./types/**/*.ts"],
-  "files": ["./index.ts"]
+  "files": ["./index.ts", "./env.ts"],
+  "tsc-alias": {
+    "verbose": false,
+    "resolveFullPaths": true,
+    "fileExtensions": {
+      "inputGlob": "{js,jsx,mjs}",
+      "outputCheck": ["js", "json", "jsx", "mjs"]
+    }
+  }
 }

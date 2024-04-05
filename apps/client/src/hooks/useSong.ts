@@ -1,33 +1,37 @@
 import { songApi } from "@/lib/api/song-api";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 const useSong = (song_id: number) => {
-  const [audio, setAudio] = useState<HTMLAudioElement>(document.createElement("audio"));
+  const audioRef = useRef<HTMLAudioElement>(document.createElement("audio"));
   const { data, isLoading, isError } = useQuery({
     queryKey: ["current_song", song_id],
     queryFn: () => songApi.streamSong(song_id),
   });
 
-  let audioRef = useRef<HTMLAudioElement>(audio);
-
   useEffect(() => {
+    const audioElement = audioRef.current;
+    console.log("useSong rendered", isLoading, isError, data);
+
     if (!isLoading && !isError && data) {
+      audioElement.src = "";
+      audioElement.currentTime = 0;
       const blob = new Blob([data], { type: "audio/mp3" });
       const blobUrl = URL.createObjectURL(blob);
 
-      const audioElement = new Audio(blobUrl);
+      audioElement.src = blobUrl;
       audioElement.volume = Number(localStorage.getItem("volume")) / 100 || 0.025;
+      audioElement.currentTime = 0;
       audioElement.setAttribute("controls", "false");
+      audioElement.autoplay = true;
 
-      setAudio(audioElement);
-      audioRef.current = audioElement;
+      console.log("play", audioElement);
 
       localStorage.setItem("current-song", String(song_id));
     }
-  }, [isLoading, isError, data]);
+  }, [song_id, isLoading]);
 
-  return { audio, isLoading, audioRef };
+  return { isLoading, audio: audioRef.current };
 };
 
 export default useSong;

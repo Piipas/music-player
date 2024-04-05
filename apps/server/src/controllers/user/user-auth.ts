@@ -102,6 +102,6 @@ export const logout = async (req: Request, res: Response, next: NextFunction) =>
 export const me = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.user;
 
-  const user = await prismaClient.user.findUnique({ where: { id }, select: { username: true } });
+  const user = await prismaClient.user.findUnique({ where: { id }, select: { username: true, Artist: true } });
   res.status(200).json(user);
 };

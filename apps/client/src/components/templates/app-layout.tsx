@@ -14,11 +14,11 @@ const AppLayout = () => {
   return (
     isSuccess &&
     !isLoading && (
-      <div className="grid grid-cols-12 h-screen">
+      <div className="grid grid-cols-12 h-screen 3xl:container">
         <LeftSidebar />
-        <div className="h-full col-span-10 relative">
+        <div className="h-full col-span-9 2xl:col-span-10 relative">
           <Header />
-          <div className="grid grid-cols-12 gap-4 p-4 h-[calc(100vh-64px-80px)]">
+          <div className="grid grid-cols-12 gap-6 p-4 h-[calc(100vh-64px-80px)]">
             <div className="container col-span-9 overflow-auto scroll layout-scrollbar">
               <Outlet />
             </div>

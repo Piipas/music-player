@@ -13,7 +13,7 @@ export const queryClient = new QueryClient({
 });
 
 const imageKitConfig = {
-  urlEndpoint: "https://ik.imagekit.io/glkluvyhf/music-player",
+  urlEndpoint: "https://ik.imagekit.io/glkluvyhf/",
   publicKey: "public_yleuBZTPApSiOd6QD2LI58hI7VM=",
   loading: "lazy",
 };

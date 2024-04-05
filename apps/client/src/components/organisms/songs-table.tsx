@@ -1,9 +1,15 @@
-import { Table, TableHeader, TableRow, TableHead, TableBody } from "@/components/atoms/table";
+import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/atoms/table";
 import { Clock } from "lucide-react";
-import { Prisma } from "mp-prisma";
 import Song from "@/components/molecules/song";
+import { Song as S } from "@/types";
+import { useMusic } from "@/providers/music-provider";
 
-function SongsTable({ songs }: { songs: Prisma.SongGetPayload<{ include: { Artist: true; Likes: true } }>[] }) {
+function SongsTable({ songs }: { songs: S[] }) {
+  const { updateQueue } = useMusic();
+  const onPlay = () => {
+    updateQueue(songs);
+  };
+
   return (
     <div className="w-full pt-4">
       <Table>
@@ -18,9 +24,15 @@ function SongsTable({ songs }: { songs: Prisma.SongGetPayload<{ include: { Artis
           </TableRow>
         </TableHeader>
         <TableBody>
-          {songs.map((song) => (
-            <Song song={song} />
-          ))}
+          {songs.length ? (
+            songs.map((song) => <Song song={song} key={song.id} onPlay={onPlay} />)
+          ) : (
+            <TableRow>
+              <TableCell colSpan={4} className="text-center">
+                No songs to show!
+              </TableCell>
+            </TableRow>
+          )}
         </TableBody>
       </Table>
     </div>
