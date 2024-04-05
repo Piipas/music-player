@@ -15,5 +15,8 @@
     },
     "exports": {
         ".": "./index.ts"
-    }
+    },
+    "files": [
+        "./dist/index.js"
+    ]
 }
