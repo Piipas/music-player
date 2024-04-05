@@ -13,6 +13,9 @@ interface MusicContextType {
   play: () => void;
   pause: () => void;
   loop: (loop: boolean) => void;
+  next: () => void;
+  previous: () => void;
+  updateQueue: (songs: Song[]) => void;
 }
 
 const defaultValue = {
@@ -25,6 +28,9 @@ const defaultValue = {
   play: () => null,
   pause: () => null,
   loop: () => null,
+  next: () => null,
+  previous: () => null,
+  updateQueue: () => null,
 };
 
 const MusicContext = createContext<MusicContextType>(defaultValue);
@@ -32,7 +38,7 @@ const MusicContext = createContext<MusicContextType>(defaultValue);
 export const MusicProvider = ({ children }: ProvidersProps) => {
   const [currentSong, setCurrentSong] = useState<Song | null>();
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
-  const [isLooping, setIsLooping] = useState<boolean>(false);
+  // const [isLooping, setIsLooping] = useState<boolean>(false);
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [queue, setQueue] = useState<Song[]>([]);
 
@@ -41,9 +47,9 @@ export const MusicProvider = ({ children }: ProvidersProps) => {
   useEffect(() => {
     if (audio) {
       audio.addEventListener("timeupdate", () => setCurrentTime(audio.currentTime));
-      audio.addEventListener("ended", () => setIsPlaying(false));
-      audio.addEventListener("pause", () => pause());
-      audio.addEventListener("play", () => play());
+      audio.addEventListener("ended", () => next());
+      audio.addEventListener("pause", pause);
+      audio.addEventListener("play", play);
     }
   }, [audio]);
 
@@ -60,20 +66,52 @@ export const MusicProvider = ({ children }: ProvidersProps) => {
   const playSong = (song: Song) => {
     setCurrentSong(song);
     setIsPlaying(true);
-    setIsLooping(false);
+    // setIsLooping(false);
   };
 
   const loop = (loop: boolean) => {
     audio.loop = loop;
-    setIsLooping(loop);
+    // setIsLooping(loop);
   };
 
-  // const next = () => {
-  //   pause();
-  // };
+  const updateQueue = (songs: Song[]) => {
+    setQueue(songs);
+  };
+
+  const next = () => {
+    const currentIndex = queue.findIndex((song) => song.id === currentSong?.id);
+    console.log(currentIndex);
+    if (currentIndex !== -1 && currentIndex < queue.length - 1) {
+      setCurrentSong(queue[currentIndex + 1]);
+      play();
+    }
+  };
+
+  const previous = () => {
+    const currentIndex = queue.findIndex((song) => song.id === currentSong?.id);
+    if (currentIndex > 0) {
+      setCurrentSong(queue[currentIndex - 1]);
+      play();
+    }
+  };
 
   return (
-    <MusicContext.Provider value={{ currentSong, isPlaying, audio, queue, currentTime, play, playSong, pause, loop }}>
+    <MusicContext.Provider
+      value={{
+        currentSong,
+        isPlaying,
+        audio,
+        queue,
+        currentTime,
+        play,
+        playSong,
+        pause,
+        loop,
+        updateQueue,
+        next,
+        previous,
+      }}
+    >
       {children}
     </MusicContext.Provider>
   );

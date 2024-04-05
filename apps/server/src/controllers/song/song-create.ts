@@ -40,14 +40,14 @@ export const createSong = async (req: Request, res: Response, next: NextFunction
 
     const uploadedImage = await imagekit.upload({
       file: image.buffer,
-      fileName: `${Date.now()}_${name}.${image.originalname.at(-1)}`,
+      fileName: `${Date.now()}_${name}.${image.originalname.split('.').at(-1)}`,
       useUniqueFileName: false,
       folder: '/music-player/songs/images/',
     });
 
     const uploadedAudio = await imagekit.upload({
       file: audio.buffer,
-      fileName: `${Date.now()}_${name}.${audio.originalname.at(-1)}`,
+      fileName: `${Date.now()}_${name}.${audio.originalname.split('.').at(-1)}`,
       useUniqueFileName: false,
       folder: '/music-player/songs/audio/',
     });

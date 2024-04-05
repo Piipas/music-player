@@ -13,12 +13,12 @@ import { IKImage } from "imagekitio-react";
 
 interface SongProps {
   song: S;
+  onPlay: VoidFunction;
 }
 
-function Song({ song }: SongProps) {
+function Song({ song, onPlay }: SongProps) {
   const { playSong, currentSong, isPlaying } = useMusic();
   const navigate = useNavigate();
-  console.log(song.image);
 
   const { mutateAsync: likeMutate } = useMutation({
     mutationFn: () => songApi.likeSong(song.id),
@@ -50,13 +50,19 @@ function Song({ song }: SongProps) {
 
   const handleLike = (like: boolean) => (like ? likeMutate() : unlikeMutate());
 
+  const handlePlay = async () => {
+    playSong(song);
+    onPlay();
+    await queryClient.invalidateQueries({ queryKey: ["history"] });
+  };
+
   return (
     <TableRow className="group">
       <TableCell className="font-medium flex gap-3 items-center capitalize">
         <Button
           size={"icon"}
           variant={"ghost"}
-          onClick={() => playSong(song)}
+          onClick={handlePlay}
           disabled={isPlaying && currentSong?.id === song.id}
           className="opacity-0 group-hover:opacity-100 transition-opacity"
         >

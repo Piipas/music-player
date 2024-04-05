@@ -31,14 +31,14 @@ export const createArtist = async (req: Request, res: Response, next: NextFuncti
 
     const uploadedAvatar = await imagekit.upload({
       file: avatar.buffer,
-      fileName: `${Date.now()}_${name}.${avatar.originalname.at(-1)}`,
+      fileName: `${Date.now()}_${name}.${avatar.originalname.split('.').at(-1)}`,
       useUniqueFileName: false,
       folder: '/music-player/artists/avatars',
     });
 
     const uploadedCover = await imagekit.upload({
       file: cover.buffer,
-      fileName: `${Date.now()}_${name}.${cover.originalname.at(-1)}`,
+      fileName: `${Date.now()}_${name}.${cover.originalname.split('.').at(-1)}`,
       useUniqueFileName: false,
       folder: '/music-player/artists/covers',
     });

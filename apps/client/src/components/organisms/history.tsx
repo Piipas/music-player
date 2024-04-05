@@ -17,7 +17,7 @@ function History() {
       <div className="text-lg flex gap-4 font-semibold pb-2 border-b border-gray-700 text-white">
         <HistoryIcon /> Recently played
       </div>
-      <ul className="p-3 flex gap-y-3 flex-wrap">
+      <ul className="px-2 py-3 flex gap-y-3 flex-wrap">
         {isLoading ||
           history.map(({ Song: { id, name, image, Artist, Likes } }: HistorySongType) => (
             <li className="flex gap-4 items-center w-full pe-2" key={id}>
@@ -28,7 +28,7 @@ function History() {
                 <div className="font-semibold text-sm">{name}</div>
                 <div className="text-sm opacity-50">{Artist.name}</div>
               </div>
-              <Button variant={"ghost"} className="justify-self-end">
+              <Button variant={"ghost"} className="justify-self-end cursor-default">
                 <Heart className={Likes.length ? "fill-main stroke-main" : ""} size={18} />
               </Button>
             </li>

@@ -1,9 +1,6 @@
 import { prismaClient } from 'mp-prisma';
 import { Request, Response, NextFunction } from 'express';
-// import path from 'path';
 import axios from 'axios';
-import util from 'util';
-import fs from 'fs';
 
 export const getSong = async (req: Request, res: Response, next: NextFunction) => {
   const { song_id } = req.params;

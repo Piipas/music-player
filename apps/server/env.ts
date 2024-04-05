@@ -11,4 +11,6 @@ export const env = cleanEnv(process.env, {
 
   IK_PUBLIC_KEY: str(),
   IK_PRIVATE_KEY: str(),
+
+  CORS_WHITELIST: str(),
 });

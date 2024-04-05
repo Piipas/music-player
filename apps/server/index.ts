@@ -1,7 +1,8 @@
 import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
+import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
-import { env } from 'env';
+import { env } from './env';
 
 import ArtistRouter from '@/routes/artist-router';
 import SongRouter from '@/routes/song-router';
@@ -14,7 +15,20 @@ const app = express();
 const port = env.PORT || 4000;
 
 app
-  .use(cors({ origin: 'http://localhost:5173', credentials: true, allowedHeaders: ['Authorization', 'Content-Type'] }))
+  .use(
+    cors({
+      origin: function (origin, callback) {
+        if (env.CORS_WHITELIST.split(',').indexOf(origin as string) !== -1) {
+          callback(null, true);
+        } else {
+          callback(new Error('Not allowed by CORS'));
+        }
+      },
+      credentials: true,
+      allowedHeaders: ['Authorization', 'Content-Type'],
+    }),
+  )
+  .use(helmet())
   .use(express.json())
   .use(cookieParser())
 

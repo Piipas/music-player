@@ -55,11 +55,11 @@ model Artist {
   name      String
   avatar    String
   cover     String
-  user_id   Int?     @unique
+  user_id   Int      @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  User    User?            @relation(fields: [user_id], references: [id])
+  User    User             @relation(fields: [user_id], references: [id])
   Songs   Song[]
   Follows ArtistsFollows[]
 

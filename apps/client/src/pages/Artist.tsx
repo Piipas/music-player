@@ -55,7 +55,7 @@ function Artist() {
               Verified Artist <BadgeCheck className="fill-main" size={20} />
             </div>
             <div className="text-5xl font-semibold">{artist?.name}</div>
-            {!me.Artist && me.Artist?.id != id && (
+            {me.Artist?.id != id && (
               <Button
                 size={"sm"}
                 variant={artist?.Follows.length ? "default" : "main"}

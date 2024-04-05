@@ -1,4 +1,3 @@
-import { Input } from "@/components/atoms/input";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/atoms/avatar";
 import {
   DropdownMenu,
@@ -12,8 +11,6 @@ import { LogOut, MicVocal, Plus } from "lucide-react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { authApi } from "@/lib/api/auth-api";
 import { useNavigate } from "react-router-dom";
-import { artistApi } from "@/lib/api/artist-api";
-import { useEffect, useState } from "react";
 import { Button } from "@/components/atoms/button";
 import { Dialog, DialogTrigger } from "../atoms/dialog";
 import UploadSong from "./upload-song";
@@ -21,38 +18,38 @@ import SwitchArtist from "./switch-artist";
 
 function Header() {
   const navigate = useNavigate();
-  const [query, setQuery] = useState<string>("");
-  const [debouncedInputValue, setDebouncedInputValue] = useState("");
+  // const [query, setQuery] = useState<string>("");
+  // const [debouncedInputValue, setDebouncedInputValue] = useState("");
 
   const { mutate: logoutMutate } = useMutation({ mutationFn: authApi.logout, onSuccess: () => navigate("/login") });
 
   const { data: me, isLoading } = useQuery({ queryKey: ["me"], queryFn: () => authApi.me() });
-  const { data: artists } = useQuery({
-    queryKey: ["artists_search", debouncedInputValue],
-    queryFn: () => artistApi.getArtists({ limit: "6", cursor: "0", query: debouncedInputValue }),
-  });
+  // const { data: artists } = useQuery({
+  //   queryKey: ["artists_search", debouncedInputValue],
+  //   queryFn: () => artistApi.getArtists({ limit: "6", cursor: "0", query: debouncedInputValue }),
+  // });
 
   const handleLogout = () => {
     localStorage.removeItem("access_token");
     logoutMutate();
   };
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value);
-  };
+  // const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setQuery(e.target.value);
+  // };
 
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setDebouncedInputValue(query);
-    }, 500);
-    return () => clearTimeout(timeout);
-  }, [query, 500]);
+  // useEffect(() => {
+  //   const timeout = setTimeout(() => {
+  //     setDebouncedInputValue(query);
+  //   }, 500);
+  //   return () => clearTimeout(timeout);
+  // }, [query, 500]);
 
   return (
     <div className="header h-16 border-b border-gray-600 flex justify-between items-center px-4">
       <div className="w-80">
-        <Input placeholder="Who's your favourite artist?" onChange={handleSearch} />
-        <div className="w-full pt-2"></div>
+        {/* <Input placeholder="Who's your favourite artist?" onChange={handleSearch} />
+        <div className="w-full pt-2"></div> */}
       </div>
       {!isLoading && (
         <div className="flex items-center gap-6">
