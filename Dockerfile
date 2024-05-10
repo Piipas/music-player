@@ -14,8 +14,7 @@ COPY packages/ packages/
 COPY apps/server/ apps/server/
 
 # Install dependencies globally and for all workspaces
-RUN npm install -g pnpm && \
-    npm install -g turbo && \
+RUN npm install -g pnpm turbo typescript && \
     pnpm install --frozen-lockfile
 
 # Build the packages first

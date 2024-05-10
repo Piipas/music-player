@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "ts-add-js-extension --dir=dist"
+    "build": "tsc && ts-add-js-extension --dir=dist"
   },
   "keywords": [],
   "author": "",
