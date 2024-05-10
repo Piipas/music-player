@@ -1,22 +1,24 @@
 {
-    "name": "mp-prisma",
-    "version": "1.0.0",
-    "description": "",
-    "main": "dist/index.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "pnpm dlx prisma generate && tsc"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "dependencies": {
-        "@prisma/client": "5.11.0"
-    },
-    "exports": {
-        ".": "./index.ts"
-    },
-    "files": [
-        "./dist/index.js"
-    ]
+  "name": "mp-prisma",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "pnpm dlx prisma generate && ts-add-js-extension --dir=dist"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "5.11.0",
+    "ts-add-js-extension": "^1.6.4"
+  },
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "files": [
+    "./dist/index.js"
+  ]
 }

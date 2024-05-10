@@ -2,9 +2,9 @@ import { createSong, likeSong } from '@/controllers/song/song-create';
 import { unlikeSong } from '@/controllers/song/song-delete';
 import { getArtistSongs, getHistory, getPlaylistSongs, getSong, streamSong } from '@/controllers/song/song-read';
 import { Router } from 'express';
-import upload from '@/utils/multer';
+import upload from '@/utils/multer-init';
 
-const router = Router();
+const router: Router = Router();
 
 router.get('/history', getHistory);
 router.get('/:song_id', getSong);

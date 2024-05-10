@@ -7,13 +7,12 @@
     "moduleDetection": "force",
     "outDir": "./dist",
     "composite": true,
-    "allowImportingTsExtensions": true,
-    "noEmit": true,
     "strict": true,
     "downlevelIteration": true,
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
@@ -22,7 +21,7 @@
   "include": ["./types/**/*.ts", "./src/**/*.ts"],
   "files": ["./index.ts", "./env.ts"],
   "tsc-alias": {
-    "verbose": false,
+    "verbose": true,
     "resolveFullPaths": true,
     "fileExtensions": {
       "inputGlob": "{js,jsx,mjs}",

@@ -1,6 +1,6 @@
 import { prismaClient } from 'mp-prisma';
 import { Request, Response, NextFunction } from 'express';
-import imagekit from '@/utils/imagekit';
+import imagekit from '@/utils/imagekit-init';
 
 export const likeSong = async (req: Request, res: Response, next: NextFunction) => {
   const { song_id } = req.params;

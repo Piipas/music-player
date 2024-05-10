@@ -1,16 +1,21 @@
 {
-    "compilerOptions": {
-        "lib": ["ESNext"],
-        "module": "ESNext",
-        "outDir": "./dist",
-        "target": "ESNext",
-        "moduleResolution": "Bundler",
-        "moduleDetection": "force",
-        "strict": true,
-        "downlevelIteration": true,
-        "skipLibCheck": true,
-        "allowSyntheticDefaultImports": true,
-        "forceConsistentCasingInFileNames": true,
-        "declaration": true
-    }
+  "compilerOptions": {
+    "lib": ["ESNext"],
+    "module": "ESNext",
+    "target": "ESNext",
+    "moduleResolution": "Bundler",
+    "moduleDetection": "force",
+    "outDir": "./dist",
+    "composite": true,
+    "strict": true,
+    "downlevelIteration": true,
+    "declaration": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "baseUrl": "."
+  },
+  "include": ["./src/**/*.ts"],
+  "files": ["./index.ts"]
 }
