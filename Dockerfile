@@ -4,6 +4,9 @@ FROM node:20.10.0
 # Set the working directory in the container
 WORKDIR /usr/src/app
 
+# Load environment variables
+ARG DATABASE_URL
+
 # Copy package.json files and other configuration files needed for pnpm
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json ./
 
@@ -26,5 +29,5 @@ RUN turbo run build --filter=server
 # Expose the port the server listens on
 EXPOSE 4000
 
-# Run the server application
-CMD ["turbo", "run", "start"]
+# Run migration and server
+CMD ["sh", "-c", "turbo run migrate --filter=mp-prisma && turbo run start"]

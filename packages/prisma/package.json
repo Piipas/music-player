@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "pnpm dlx prisma generate && tsc && ts-add-js-extension --dir=dist"
+    "build": "pnpm dlx prisma generate && tsc && ts-add-js-extension --dir=dist",
+    "migrate": "pnpm dlx prisma migrate deploy"
   },
   "keywords": [],
   "author": "",
