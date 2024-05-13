@@ -19,12 +19,17 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: "npm"
-      - run: npm i -g pnpm turbo
+          cache: "pnpm"
+      - run: pnpm add -g turbo
       - run: pnpm install --frozen-lockfile
       - run: turbo run build --filter=mp-validation --filter=mp-prisma
       - run: turbo run build --filter=server
