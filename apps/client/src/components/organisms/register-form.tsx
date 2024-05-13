@@ -81,6 +81,13 @@ const RegisterForm = () => {
             )}
           />
           <Button className="w-full bg-main text-white gap-2">{isPending ? <LoaderCircle /> : "Register"}</Button>
+          <p className="text-sm text-center">
+            You already have an account?{" "}
+            <span className="text-main hover:underline cursor-pointer" onClick={() => navigate("/login")}>
+              Sign in
+            </span>{" "}
+            here.
+          </p>
         </div>
       </form>
     </Form>

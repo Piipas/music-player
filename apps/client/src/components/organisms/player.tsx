@@ -4,6 +4,7 @@ import { Slider } from "@/components/atoms/slider";
 import { useMusic } from "@/providers/music-provider";
 import { useState } from "react";
 import { IKImage } from "imagekitio-react";
+import { cn } from "@/lib/utils";
 
 function Player() {
   const { currentSong, isPlaying, currentTime, play, pause, audio, next, previous } = useMusic();
@@ -23,7 +24,7 @@ function Player() {
   };
 
   return (
-    <div className="h-20 border-t border-gray-600 w-full py-2 px-4 grid grid-cols-12 relative z-50 bg-background">
+    <div className={"h-20 border-t border-gray-600 w-full py-2 px-4 grid grid-cols-12 relative z-50 bg-background"}>
       <div className="absolute top-0 left-0 -translate-y-1/2 w-full">
         <Slider
           defaultValue={[0]}
@@ -34,16 +35,18 @@ function Player() {
           className="w-full"
         />
       </div>
-      <div className="h-ful flex items-center col-span-4">
-        <div className="w-16 rounded-md overflow-hidden">
-          <IKImage path={currentSong ? currentSong.image : "https://github.com/shadcn.png"} />
+      <div className={cn("h-full flex items-center col-span-4 relative", !currentSong && "opacity-50")}>
+        {!currentSong && <div className="absolute bottom-0 h-full w-full z-50"></div>}
+        <div className="w-16 aspect-square rounded-md overflow-hidden">
+          {currentSong ? <IKImage path={currentSong.image} /> : <img src="https://github.com/shadcn.png" alt="" />}
         </div>
         <div className="ps-2 -space-y-1">
-          <div className="text-lg font-semibold capitalize">{currentSong ? currentSong.name : "Rap God"}</div>
-          <div className="text-sm opacity-50 capitalize">{currentSong ? currentSong.Artist.name : "Eminem"}</div>
+          <div className="text-lg font-semibold capitalize">{currentSong ? currentSong.name : "No Song"}</div>
+          <div className="text-sm opacity-50 capitalize">{currentSong ? currentSong.Artist.name : "No Artist"}</div>
         </div>
       </div>
-      <div className="flex gap-3 items-center col-span-4 justify-center">
+      <div className={cn("flex gap-3 items-center col-span-4 justify-center relative", !currentSong && "opacity-50")}>
+        {!currentSong && <div className="absolute bottom-0 h-full w-full z-50"></div>}
         <Button size={"icon"} variant={"ghost"} className="rounded-full" onClick={previous}>
           <SkipBack />
         </Button>

@@ -75,7 +75,7 @@ function SwitchArtist() {
                 className="h-[200px] border border-input border-dashed rounded-lg flex items-center justify-center cursor-pointer"
               >
                 <Input name="avatar" {...avatarInputProps({ multiple: false })} />
-                <p>
+                <p className="px-8 truncate w-[461.52px] text-center">
                   {isAvatarActive && "Drop it here ..."}
                   {!isAvatarActive && !avatar && "Drag your avatar file ..."}
                   {avatar ? avatar.name : ""}
@@ -86,7 +86,7 @@ function SwitchArtist() {
                 className="h-[200px] border border-input border-dashed rounded-lg flex items-center justify-center cursor-pointer"
               >
                 <Input name="cover" {...coverInputProps({ multiple: false, type: "cover" })} />
-                <p>
+                <p className="px-8 truncate w-[461.52px] text-center">
                   {isCoverActive && "Drop it here ..."}
                   {!isCoverActive && !cover && "Drag your cover file ..."}
                   {cover ? cover.name : ""}

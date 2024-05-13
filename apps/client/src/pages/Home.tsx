@@ -17,13 +17,22 @@ const Home = () => {
     isLoading || (
       <>
         <div className="w-full rounded-2xl border-2 border-white h-48 p-6 flex items-center relative overflow-hidden">
-          {/* <img src={wallpaper} className="w-full absolute top-0 left-0 opacity-30" alt="" /> */}
+          <img
+            src={"/images/geometric-vintage-retro-background-ai-generated-image.jpg"}
+            className="w-full absolute top-0 left-0 opacity-30"
+            alt=""
+          />
           <div className="z-10">
-            <div className="text-5xl font-semibold">Stakatak Sbakatak</div>
+            <div className="text-5xl font-semibold">Widow</div>
             <div className="text-lg flex gap-2 items-center">
-              Artist, Cheb Laarbi <BadgeCheck className="fill-main" size={20} />
+              Artist, Splecter <BadgeCheck className="fill-main" size={20} />
             </div>
-            <Button size={"sm"} variant={"main"} className="w-24 mt-2 text-lg font-semibold gap-2">
+            <Button
+              size={"sm"}
+              variant={"main"}
+              disabled
+              className="w-24 mt-2 text-lg font-semibold gap-2 disabled:cursor-not-allowed"
+            >
               <Play size={18} />
               Play
             </Button>

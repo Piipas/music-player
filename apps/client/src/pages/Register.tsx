@@ -6,7 +6,7 @@ export default function Register() {
     <Card className="w-96">
       <CardHeader>
         <CardTitle className="text-2xl font-bold text-main">Register</CardTitle>
-        <CardDescription>Register now! And stream illimited songs and podcasts!</CardDescription>
+        <CardDescription>Sign up now to stream unlimited songs and podcasts!</CardDescription>
       </CardHeader>
       <CardContent>
         <RegisterForm />

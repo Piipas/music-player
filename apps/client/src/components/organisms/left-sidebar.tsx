@@ -10,7 +10,7 @@ interface NavlinkType {
 const navlinks: NavlinkType[] = [
   {
     label: "Discover",
-    to: "/discover",
+    to: "/",
     icon: <Telescope />,
   },
   {
@@ -45,7 +45,7 @@ function LeftSidebar() {
           className="logo text-center text-2xl font-semibold text-main py-6 capitalize cursor-pointer"
           onClick={() => navigate("/")}
         >
-          Pipas Player
+          Pipas Music
         </div>
         <ul className="navlinks space-y-3">
           {navlinks.map(({ label, to, icon }) => (

@@ -47,7 +47,7 @@ function Artist() {
         <div className="w-full rounded-2xl border-2 border-white h-48 p-6 flex items-center relative overflow-hidden">
           <IKImage
             path={artist?.cover || "https://github.com/shadcn.png"}
-            className="w-full absolute top-0 left-0 opacity-30"
+            className="w-full absolute top-0 left-0 opacity-30 -translate-y-1/2"
           />
           <div className="z-10">
             {/* <div className="text-sm">Artist</div> */}

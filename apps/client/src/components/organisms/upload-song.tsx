@@ -10,6 +10,7 @@ import { songApi } from "@/lib/api/song-api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { newSongBodySchema, NewSongType } from "mp-validation";
 import { useState } from "react";
+import { LoaderCircle } from "lucide-react";
 
 function UploadSong() {
   const [audio, setAudio] = useState<File | null>(null);
@@ -22,9 +23,11 @@ function UploadSong() {
     },
   });
 
-  const { mutate: songMutate } = useMutation({
+  const { mutate: songMutate, isPending } = useMutation({
     mutationFn: (songInfo: FormData) => songApi.createSong(songInfo),
-    onSuccess: () => {},
+    onSuccess: () => {
+      window.location.reload();
+    },
   });
 
   const onSubmit = (songInfo: NewSongType) => {
@@ -65,13 +68,13 @@ function UploadSong() {
         <DialogDescription>Upload new song and let others enjoy your music.</DialogDescription>
         <Form {...songForm}>
           <form onSubmit={songForm.handleSubmit(onSubmit)}>
-            <div className="space-y-4">
+            <div className="space-y-4 w-full">
               <div
                 {...audioRootProps()}
-                className="h-[200px] border border-input border-dashed rounded-lg flex items-center justify-center cursor-pointer"
+                className="h-[200px] border border-input border-dashed rounded-lg flex items-center justify-center cursor"
               >
                 <Input name="audio" {...audioInputProps({ multiple: false })} />
-                <p>
+                <p className="px-8 truncate w-[461.52px] text-center">
                   {isAudioActive && "Drop it here ..."}
                   {!isAudioActive && !audio && "Drag your song audio file ..."}
                   {audio ? audio.name : ""}
@@ -82,7 +85,7 @@ function UploadSong() {
                 className="h-[200px] border border-input border-dashed rounded-lg flex items-center justify-center cursor-pointer"
               >
                 <Input name="image" {...imageInputProps({ multiple: false, type: "image" })} />
-                <p>
+                <p className="px-8 truncate w-[461.52px] text-center">
                   {isImageActive && "Drop it here ..."}
                   {!isImageActive && !image && "Drag your song image file ..."}
                   {image ? image.name : ""}
@@ -102,12 +105,12 @@ function UploadSong() {
               ></FormField>
               <div className="grid grid-cols-2 gap-4">
                 <DialogClose asChild>
-                  <Button variant={"outline"} type="button">
+                  <Button variant={"outline"} type="button" disabled={isPending}>
                     Cancel
                   </Button>
                 </DialogClose>
-                <Button variant={"main"} type="submit">
-                  Create
+                <Button variant={"main"} type="submit" className="space-x-1" disabled={isPending}>
+                  {isPending && <LoaderCircle className="animate-spin" size={20} />} <span>Create</span>
                 </Button>
               </div>
             </div>

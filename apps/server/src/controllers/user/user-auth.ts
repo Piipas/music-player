@@ -27,7 +27,7 @@ export const signin = async (req: Request, res: Response, next: NextFunction) =>
       .cookie('__rf__', refresh_token, {
         httpOnly: true,
         secure: true,
-        sameSite: 'lax',
+        sameSite: 'none',
         expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
       })
       .json({ access_token });
@@ -57,7 +57,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
       .cookie('__rf__', refresh_token, {
         httpOnly: true,
         secure: true,
-        // sameSite: 'strict',
+        sameSite: 'none',
         expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
       })
       .json({ access_token });
@@ -86,7 +86,7 @@ export const refreshToken = async (req: Request, res: Response, next: NextFuncti
       .cookie('__rf__', refresh_token, {
         httpOnly: true,
         secure: true,
-        // sameSite: 'strict',
+        sameSite: 'none',
         expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
       })
       .json({ access_token });

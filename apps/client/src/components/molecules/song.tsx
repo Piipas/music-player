@@ -31,7 +31,7 @@ function Song({ song, onPlay }: SongProps) {
         }),
       );
     },
-    onError: (error) => console.log(error),
+    // onError: (error) => console.log(error),
   });
 
   const { mutateAsync: unlikeMutate } = useMutation({
@@ -45,7 +45,7 @@ function Song({ song, onPlay }: SongProps) {
         }),
       );
     },
-    onError: (error) => console.log(error),
+    // onError: (error) => console.log(error),
   });
 
   const handleLike = (like: boolean) => (like ? likeMutate() : unlikeMutate());

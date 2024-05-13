@@ -14,6 +14,9 @@ importers:
 
   apps/client:
     dependencies:
+      '@hookform/error-message':
+        specifier: ^2.0.1
+        version: 2.0.1(react-dom@18.2.0(react@18.2.0))(react-hook-form@7.51.1(react@18.2.0))(react@18.2.0)
       '@hookform/resolvers':
         specifier: ^3.3.4
         version: 3.3.4(react-hook-form@7.51.1(react@18.2.0))
@@ -77,6 +80,9 @@ importers:
       react-router-dom:
         specifier: ^6.22.3
         version: 6.22.3(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      sonner:
+        specifier: ^1.4.41
+        version: 1.4.41(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       tailwind-merge:
         specifier: ^2.2.1
         version: 2.2.1
@@ -555,6 +561,13 @@ packages:
 
   '@floating-ui/utils@0.2.1':
     resolution: {integrity: sha512-9TANp6GPoMtYzQdt54kfAyMmz1+osLlXdg2ENroU7zzrtflTLrrC/lgrIfaSe+Wu0b89GKccT7vxXA0MoAIO+Q==}
+
+  '@hookform/error-message@2.0.1':
+    resolution: {integrity: sha512-U410sAr92xgxT1idlu9WWOVjndxLdgPUHEB8Schr27C9eh7/xUnITWpCMF93s+lGiG++D4JnbSnrb5A21AdSNg==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+      react-hook-form: ^7.0.0
 
   '@hookform/resolvers@3.3.4':
     resolution: {integrity: sha512-o5cgpGOuJYrd+iMKvkttOclgwRW86EsWJZZRC23prf0uU2i48Htq4PuT73AVb9ionFyZrwYEITuOFGF+BydEtQ==}
@@ -2795,6 +2808,12 @@ packages:
     resolution: {integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==}
     engines: {node: '>=8'}
 
+  sonner@1.4.41:
+    resolution: {integrity: sha512-uG511ggnnsw6gcn/X+YKkWPo5ep9il9wYi3QJxHsYe7yTZ4+cOd1wuodOUmOpFuXL+/RE3R04LczdNCDygTDgQ==}
+    peerDependencies:
+      react: ^18.0.0
+      react-dom: ^18.0.0
+
   source-map-js@1.0.2:
     resolution: {integrity: sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==}
     engines: {node: '>=0.10.0'}
@@ -3413,6 +3432,12 @@ snapshots:
       react-dom: 18.2.0(react@18.2.0)
 
   '@floating-ui/utils@0.2.1': {}
+
+  '@hookform/error-message@2.0.1(react-dom@18.2.0(react@18.2.0))(react-hook-form@7.51.1(react@18.2.0))(react@18.2.0)':
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      react-hook-form: 7.51.1(react@18.2.0)
 
   '@hookform/resolvers@3.3.4(react-hook-form@7.51.1(react@18.2.0))':
     dependencies:
@@ -5950,6 +5975,11 @@ snapshots:
   signal-exit@4.1.0: {}
 
   slash@3.0.0: {}
+
+  sonner@1.4.41(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
 
   source-map-js@1.0.2: {}
 

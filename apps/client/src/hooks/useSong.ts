@@ -11,7 +11,6 @@ const useSong = (song_id: number) => {
 
   useEffect(() => {
     const audioElement = audioRef.current;
-    console.log("useSong rendered", isLoading, isError, data);
 
     if (!isLoading && !isError && data) {
       audioElement.src = "";
@@ -24,8 +23,6 @@ const useSong = (song_id: number) => {
       audioElement.currentTime = 0;
       audioElement.setAttribute("controls", "false");
       audioElement.autoplay = true;
-
-      console.log("play", audioElement);
 
       localStorage.setItem("current-song", String(song_id));
     }

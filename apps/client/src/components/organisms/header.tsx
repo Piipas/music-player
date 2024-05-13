@@ -34,17 +34,6 @@ function Header() {
     logoutMutate();
   };
 
-  // const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setQuery(e.target.value);
-  // };
-
-  // useEffect(() => {
-  //   const timeout = setTimeout(() => {
-  //     setDebouncedInputValue(query);
-  //   }, 500);
-  //   return () => clearTimeout(timeout);
-  // }, [query, 500]);
-
   return (
     <div className="header h-16 border-b border-gray-600 flex justify-between items-center px-4">
       <div className="w-80">

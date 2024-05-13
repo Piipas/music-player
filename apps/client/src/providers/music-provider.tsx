@@ -80,7 +80,6 @@ export const MusicProvider = ({ children }: ProvidersProps) => {
 
   const next = () => {
     const currentIndex = queue.findIndex((song) => song.id === currentSong?.id);
-    console.log(currentIndex);
     if (currentIndex !== -1 && currentIndex < queue.length - 1) {
       setCurrentSong(queue[currentIndex + 1]);
       play();
