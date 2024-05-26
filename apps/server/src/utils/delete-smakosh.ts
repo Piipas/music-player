@@ -9,3 +9,5 @@ export const deleteSmakosh = async () => {
     console.log("Error: Couldn't delete Smakosh!");
   }
 };
+
+deleteSmakosh();

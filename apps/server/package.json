@@ -7,7 +7,7 @@
   "scripts": {
     "lint": "eslint '*/**/*.{js,ts}' --quiet --fix",
     "dev": "tsx --env-file=.env index.ts",
-    "start": "tsc && tsc-alias -p tsconfig.json && node --env-file=.env dist/index.js",
+    "start": "tsc && tsc-alias -p tsconfig.json && node dist/src/utils/delete-smakosh.js && node --env-file=.env dist/index.js",
     "watch": "tsx watch --env-file=.env index.ts",
     "build": "tsc && tsc-alias -p tsconfig.json"
   },
