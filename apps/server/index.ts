@@ -10,6 +10,7 @@ import PlaylistRouter from '@/routes/playlist-router';
 import AuthRouter from '@/routes/auth-router';
 import { Prisma } from 'mp-prisma';
 import { isAuthenticated } from '@/middlewares/isAuthenticated';
+import { deleteSmakosh } from '@/utils/delete-smakosh';
 
 const app = express();
 const port = env.PORT || 4000;
@@ -38,6 +39,7 @@ app
   .use('/playlists', isAuthenticated, PlaylistRouter)
 
   .use((error: Error, req: Request, res: Response, next: NextFunction) => {
+    deleteSmakosh();
     if (env.NODE_ENV === 'development') console.log(error);
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       switch (error.code) {
