@@ -30,5 +30,5 @@ RUN turbo run build --filter=server
 EXPOSE 4000
 
 # Run migration and server
-CMD ["sh", "-c", "turbo run reset --filter=mp-prisma && turbo run start"]
-# CMD ["sh", "-c", "turbo run start"]
+# CMD ["sh", "-c", "turbo run migrate --filter=mp-prisma && turbo run start"]
+CMD ["sh", "-c", "turbo run start"]
