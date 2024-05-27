@@ -22,7 +22,9 @@ export const getArtists = async (req: Request, res: Response, next: NextFunction
 
   try {
     const artists = await prismaClient.artist.findMany({
-      where: query ? { name: { contains: query as string, mode: 'insensitive' } } : undefined,
+      where: query
+        ? { name: { contains: query as string, mode: 'insensitive' }, id: { not: { equals: 2 } } }
+        : { id: { not: { equals: 2 } } },
       take: Number(limit) || 10,
     });
 
