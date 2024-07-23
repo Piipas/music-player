@@ -23,9 +23,6 @@ RUN npm install -g pnpm turbo typescript && \
 # Build the packages first
 RUN turbo run build --filter=mp-prisma --filter=mp-validation
 
-# Migrate the database
-RUN turbo run migrate --filter=mp-prisma
-
 # Then, build the server
 RUN turbo run build --filter=server
 
