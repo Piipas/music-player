@@ -6,9 +6,9 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "pnpm dlx prisma generate && tsc && ts-add-js-extension --dir=dist",
-    "migrate": "pnpm dlx prisma migrate deploy",
-    "reset": "pnpm dlx prisma migrate reset && pnpm dlx prisma migrate deploy"
+    "build": "prisma generate && tsc && ts-add-js-extension --dir=dist",
+    "migrate": "prisma migrate deploy",
+    "reset": "prisma migrate reset && prisma migrate deploy"
   },
   "keywords": [],
   "author": "",
@@ -22,5 +22,8 @@
   },
   "files": [
     "./dist/index.js"
-  ]
+  ],
+  "devDependencies": {
+    "prisma": "^5.11.0"
+  }
 }

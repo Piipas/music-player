@@ -253,6 +253,10 @@ importers:
       ts-add-js-extension:
         specifier: ^1.6.4
         version: 1.6.4
+    devDependencies:
+      prisma:
+        specifier: ^5.11.0
+        version: 5.11.0
 
   packages/validation:
     dependencies:
