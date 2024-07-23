@@ -1,0 +1,14 @@
+{
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "server": "84.247.163.161",
+      "port": 2345,
+      "askForPassword": true,
+      "driver": "PostgreSQL",
+      "name": "Music Player Production",
+      "database": "postgres",
+      "username": "postgres"
+    }
+  ]
+}
