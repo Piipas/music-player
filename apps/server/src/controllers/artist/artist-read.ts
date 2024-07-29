@@ -5,8 +5,6 @@ export const getArtist = async (req: Request, res: Response, next: NextFunction)
   const { artist_id } = req.params;
   const id = req.user?.id || undefined;
 
-  console.log(req.cookies);
-
   try {
     const artist = await prismaClient.artist.findFirstOrThrow({
       where: { id: parseInt(artist_id) },
