@@ -96,7 +96,14 @@ export const refreshToken = async (req: Request, res: Response, next: NextFuncti
 };
 
 export const logout = async (req: Request, res: Response, next: NextFunction) => {
-  res.clearCookie('__rf__').status(200).json({ message: 'Logged out successfully!' });
+  res
+    .clearCookie('__rf__', {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+    })
+    .status(200)
+    .json({ message: 'Logged out successfully!' });
 };
 
 export const me = async (req: Request, res: Response, next: NextFunction) => {
