@@ -24,7 +24,7 @@ function SongsTable({ songs }: { songs: S[] }) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {songs.length ? (
+          {songs?.length ? (
             songs.map((song) => <Song song={song} key={song.id} onPlay={onPlay} />)
           ) : (
             <TableRow>

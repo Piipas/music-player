@@ -9,7 +9,6 @@ import SongRouter from '@/routes/song-router';
 import PlaylistRouter from '@/routes/playlist-router';
 import AuthRouter from '@/routes/auth-router';
 import { Prisma } from 'mp-prisma';
-import { isAuthenticated } from '@/middlewares/isAuthenticated';
 
 const app = express();
 const port = env.PORT || 4000;
@@ -33,9 +32,9 @@ app
   .use(cookieParser())
 
   .use('/auth', AuthRouter)
-  .use('/artists', isAuthenticated, ArtistRouter)
-  .use('/songs', isAuthenticated, SongRouter)
-  .use('/playlists', isAuthenticated, PlaylistRouter)
+  .use('/artists', ArtistRouter)
+  .use('/songs', SongRouter)
+  .use('/playlists', PlaylistRouter)
 
   .use((error: Error, req: Request, res: Response, next: NextFunction) => {
     if (env.NODE_ENV === 'development') console.log(error);

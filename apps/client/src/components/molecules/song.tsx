@@ -83,7 +83,7 @@ function Song({ song, onPlay }: SongProps) {
       <TableCell>{milliToTime(song.duration)}</TableCell>
       <TableCell>
         <Button variant={"ghost"} onClick={() => handleLike(!song.Likes.length)}>
-          <Heart className={song.Likes.length ? "fill-main stroke-main" : ""} size={18} />
+          <Heart className={song.Likes?.length ? "fill-main stroke-main" : ""} size={18} />
         </Button>
       </TableCell>
     </TableRow>

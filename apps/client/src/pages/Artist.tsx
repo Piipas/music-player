@@ -55,14 +55,14 @@ function Artist() {
               Verified Artist <BadgeCheck className="fill-main" size={20} />
             </div>
             <div className="text-5xl font-semibold">{artist?.name}</div>
-            {me.Artist?.id != id && (
+            {me != undefined && me?.Artist?.id != id && (
               <Button
                 size={"sm"}
-                variant={artist?.Follows.length ? "default" : "main"}
+                variant={artist?.Follows?.length ? "default" : "main"}
                 className="mt-2 text-lg font-semibold gap-2"
-                onClick={() => handleFollow(!artist?.Follows.length)}
+                onClick={() => handleFollow(!artist?.Follows?.length)}
               >
-                {artist?.Follows.length ? (
+                {artist?.Follows?.length ? (
                   <>
                     <Heart size={18} className="text-main" />
                     Following
