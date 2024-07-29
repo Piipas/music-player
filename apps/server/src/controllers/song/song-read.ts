@@ -19,7 +19,7 @@ export const getSong = async (req: Request, res: Response, next: NextFunction) =
 
 export const streamSong = async (req: Request, res: Response, next: NextFunction) => {
   const { song_id } = req.params;
-  const { id } = req.user;
+  const id = req.user?.id ?? undefined;
 
   try {
     const song = await prismaClient.song.findFirstOrThrow({
@@ -29,7 +29,7 @@ export const streamSong = async (req: Request, res: Response, next: NextFunction
 
     const { data: file } = await axios.get(song.path, { responseType: 'arraybuffer' });
 
-    await prismaClient.history.create({ data: { song_id: song.id, user_id: id } });
+    if (id) await prismaClient.history.create({ data: { song_id: song.id, user_id: id } });
 
     res
       .setHeader('Content-Disposition', `attachment; filename=${song.name}`)
@@ -44,12 +44,12 @@ export const streamSong = async (req: Request, res: Response, next: NextFunction
 export const getArtistSongs = async (req: Request, res: Response, next: NextFunction) => {
   const { artist_id } = req.params;
   const { limit, cursor } = req.query;
-  const { id } = req.user;
+  const id = req.user?.id || undefined;
 
   try {
     const songs = await prismaClient.song.findMany({
       where: { artist_id: parseInt(artist_id) },
-      include: { Artist: true, Likes: { where: { user_id: id } } },
+      include: { Artist: true, Likes: id ? { where: { user_id: id } } : undefined },
       take: Number(limit) || 10,
       cursor: { id: Number(cursor) || 1 },
     });

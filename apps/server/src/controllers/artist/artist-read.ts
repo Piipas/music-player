@@ -3,12 +3,14 @@ import { prismaClient } from 'mp-prisma';
 
 export const getArtist = async (req: Request, res: Response, next: NextFunction) => {
   const { artist_id } = req.params;
-  const { id } = req.user;
+  const id = req.user?.id || undefined;
+
+  console.log(req.cookies);
 
   try {
     const artist = await prismaClient.artist.findFirstOrThrow({
       where: { id: parseInt(artist_id) },
-      include: { Follows: { where: { user_id: id } } },
+      include: { Follows: id ? { where: { user_id: id } } : undefined },
     });
 
     res.status(200).json(artist);

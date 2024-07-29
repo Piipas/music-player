@@ -15,19 +15,16 @@ import { Button } from "@/components/atoms/button";
 import { Dialog, DialogTrigger } from "../atoms/dialog";
 import UploadSong from "./upload-song";
 import SwitchArtist from "./switch-artist";
+import useAuth from "@/hooks/useAuth";
 
 function Header() {
   const navigate = useNavigate();
-  // const [query, setQuery] = useState<string>("");
-  // const [debouncedInputValue, setDebouncedInputValue] = useState("");
 
   const { mutate: logoutMutate } = useMutation({ mutationFn: authApi.logout, onSuccess: () => navigate("/login") });
 
-  const { data: me, isLoading } = useQuery({ queryKey: ["me"], queryFn: () => authApi.me() });
-  // const { data: artists } = useQuery({
-  //   queryKey: ["artists_search", debouncedInputValue],
-  //   queryFn: () => artistApi.getArtists({ limit: "6", cursor: "0", query: debouncedInputValue }),
-  // });
+  const { data: me } = useQuery({ queryKey: ["me"], queryFn: () => authApi.me() });
+
+  const { isSuccess } = useAuth();
 
   const handleLogout = () => {
     localStorage.removeItem("access_token");
@@ -40,12 +37,12 @@ function Header() {
         {/* <Input placeholder="Who's your favourite artist?" onChange={handleSearch} />
         <div className="w-full pt-2"></div> */}
       </div>
-      {!isLoading && (
+      {isSuccess ? (
         <div className="flex items-center gap-6">
           <div className="flex gap-4">
-            {me.Artist ? (
+            {me?.Artist ? (
               <Dialog>
-                <DialogTrigger>
+                <DialogTrigger asChild>
                   <Button variant={"main"} size={"sm"} className="gap-2">
                     <Plus size={18} /> New Song
                   </Button>
@@ -54,7 +51,7 @@ function Header() {
               </Dialog>
             ) : (
               <Dialog>
-                <DialogTrigger>
+                <DialogTrigger asChild>
                   <Button variant={"outline"} size={"sm"} className="gap-2">
                     <MicVocal size={18} /> Be Artist
                   </Button>
@@ -79,6 +76,15 @@ function Header() {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+        </div>
+      ) : (
+        <div className="flex gap-2">
+          <Button variant={"main"} size={"sm"} onClick={() => navigate("/login")}>
+            Login
+          </Button>
+          <Button variant={"default"} size={"sm"} className="text-main" onClick={() => navigate("/register")}>
+            Register
+          </Button>
         </div>
       )}
     </div>
