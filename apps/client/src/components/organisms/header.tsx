@@ -22,9 +22,9 @@ function Header() {
 
   const { mutate: logoutMutate } = useMutation({ mutationFn: authApi.logout, onSuccess: () => navigate("/login") });
 
-  const { data: me, isLoading } = useQuery({ queryKey: ["me"], queryFn: () => authApi.me() });
+  const { data: me } = useQuery({ queryKey: ["me"], queryFn: () => authApi.me() });
 
-  const { isError, isSuccess, isLoading: isAuthLoading } = useAuth();
+  const { isSuccess } = useAuth();
 
   const handleLogout = () => {
     localStorage.removeItem("access_token");

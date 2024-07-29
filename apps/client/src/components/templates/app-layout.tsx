@@ -7,7 +7,7 @@ import useAuth from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
 
 const AppLayout = () => {
-  const { isError, isSuccess, isLoading } = useAuth();
+  const { isError, isSuccess } = useAuth();
 
   return (
     <div className="grid grid-cols-12 h-screen 3xl:container">
